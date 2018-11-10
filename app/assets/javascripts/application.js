@@ -22,11 +22,8 @@
 //= require plugins/chartist.min.js
 //= require plugins/perfect-scrollbar.jquery.min.js
 
-//= require demo.js
-//= require home.js
-//= require material-dashboard.js
-
 //= require leaflet.js
 //= require leaflet-dvf.js
 //= require moment.min.js
 
+//= require home.js
