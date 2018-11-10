@@ -11,7 +11,13 @@
  * It is generally better to create a new file per style scope.
  *
  *= require material-dashboard
+
  *= require home
  *= require demo
+ *= require map
+
+ *= require leaflet
+ *= require dvf
+
  *= require_self
  */

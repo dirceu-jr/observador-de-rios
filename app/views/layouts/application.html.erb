@@ -29,14 +29,14 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item active  ">
-            <a class="nav-link" href="./dashboard.html">
+          <li class="nav-item <%= params[:controller] == 'home' ? 'active' : '' %>">
+            <a class="nav-link" href="/">
               <i class="material-icons">dashboard</i>
               <p>Estação Gralha Azul</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./map.html">
+          <li class="nav-item  <%= params[:controller] == 'map' ? 'active' : '' %>">
+            <a class="nav-link" href="/map">
               <i class="material-icons">location_ons</i>
               <p>Mapa</p>
             </a>
@@ -54,11 +54,9 @@
         </div>
       </nav>
       <!-- End Navbar -->
-      <div class="content">
-        <div class="container-fluid">
-          <%= yield %>
-        </div>
-      </div>
+      
+      <%= yield %>
+
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -70,21 +68,10 @@
               </li>
             </ul>
           </nav>
-          <div class="copyright float-right">
-            &copy;
-            2019
-          </div>
         </div>
       </footer>
     </div>
   </div>
-
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      md.initDashboardPageCharts();
-    });
-  </script>
 </body>
 
 </html>

@@ -25,3 +25,9 @@
 //= require demo.js
 //= require home.js
 //= require material-dashboard.js
+
+//= require leaflet.js
+//= require leaflet-dvf.js
+//= require moment.min.js
+//= require tile.stamen
+//= require underscore-min.js

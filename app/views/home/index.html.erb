@@ -1,139 +1,153 @@
 <% provide(:title, 'Estação Gralha Azul') %>
 
-<div class="row">
+<div class="content">
+    <div class="container-fluid">
 
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-info card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">navigation</i>
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">navigation</i>
+                        </div>
+                        <p class="card-category">Navegou</p>
+                        <h3 class="card-title">120
+                            <small>KM</small>
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i>
+                            Desde o dia 10/01/2019
+                        </div>
+                    </div>
                 </div>
-                <p class="card-category">Navegou</p>
-                <h3 class="card-title">120
-                    <small>KM</small>
-                </h3>
             </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">date_range</i>
-                    Desde o dia 10/01/2019
+            
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">colorize</i>
+                        </div>
+                        <p class="card-category">Pontos coletados</p>
+                        <h3 class="card-title">75</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i>
+                            Desde o dia 10/01/2019 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+            
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-chart">
+                    <div class="card-header card-header-success">
+                        <div class="ct-chart" id="dailySalesChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">pH</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> atualizado 5 minutos atrás
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-chart">
+                    <div class="card-header card-header-warning">
+                        <div class="ct-chart" id="websiteViewsChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">ORP</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> atualizado 5 minutos atrás
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-chart">
+                    <div class="card-header card-header-danger">
+                        <div class="ct-chart" id="completedTasksChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Oxigênio Dissolvido</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> atualizado 5 minutos atrás
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-header card-header-warning card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">colorize</i>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-chart">
+                    <div class="card-header card-header-info">
+                        <div class="ct-chart" id="conductivityChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Condutividade</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> atualizado 5 minutos atrás
+                        </div>
+                    </div>
                 </div>
-                <p class="card-category">Pontos coletados</p>
-                <h3 class="card-title">75</h3>
             </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">date_range</i>
-                    Desde o dia 10/01/2019 
+            <div class="col-md-4">
+                <div class="card card-chart">
+                    <div class="card-header card-header-success">
+                        <div class="ct-chart" id="temperatureChart"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Temperatura</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> atualizado 5 minutos atrás
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-chart">
+                    <div class="card-header card-header-warning">
+                        <div class="ct-chart" id="co2Chart"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">CO2 na superficie</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> atualizado 5 minutos atrás
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
 </div>
-    
-<div class="row">
-    <div class="col-md-4">
-        <div class="card card-chart">
-            <div class="card-header card-header-success">
-                <div class="ct-chart" id="dailySalesChart"></div>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">pH</h4>
-            </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">access_time</i> atualizado 5 minutos atrás
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-chart">
-            <div class="card-header card-header-warning">
-                <div class="ct-chart" id="websiteViewsChart"></div>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">ORP</h4>
-            </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">access_time</i> atualizado 5 minutos atrás
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-chart">
-            <div class="card-header card-header-danger">
-                <div class="ct-chart" id="completedTasksChart"></div>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Oxigênio Dissolvido</h4>
-            </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">access_time</i> atualizado 5 minutos atrás
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="card card-chart">
-            <div class="card-header card-header-success">
-                <div class="ct-chart" id="conductivityChart"></div>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Condutividade</h4>
-            </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">access_time</i> atualizado 5 minutos atrás
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-chart">
-            <div class="card-header card-header-success">
-                <div class="ct-chart" id="temperatureChart"></div>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Temperatura</h4>
-            </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">access_time</i> atualizado 5 minutos atrás
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-chart">
-            <div class="card-header card-header-success">
-                <div class="ct-chart" id="co2Chart"></div>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">CO2 na superficie</h4>
-            </div>
-            <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">access_time</i> atualizado 5 minutos atrás
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+$(document).on('turbolinks:load', function() {
+  // Javascript method's body can be found in assets/js/demos.js
+  md.initDashboardPageCharts();
+});
+</script>
