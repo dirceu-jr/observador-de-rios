@@ -42,14 +42,16 @@ var mobile_menu_visible = 0,
   toggle_initialized = false,
   bootstrap_nav_initialized = false;
 
-var seq = 0,
+var
+  seq = 0,
   delays = 80,
   durations = 500;
-var seq2 = 0,
+var
+  seq2 = 0,
   delays2 = 80,
   durations2 = 500;
 
-$(document).ready(function() {
+$(document).on('turbolinks:load', function() {
 
   $('body').bootstrapMaterialDesign();
 
@@ -227,32 +229,6 @@ md = {
         clear: 'fa fa-trash',
         close: 'fa fa-remove'
 
-      }
-    });
-  },
-
-
-  initSliders: function() {
-    // Sliders for demo purpose
-    var slider = document.getElementById('sliderRegular');
-
-    noUiSlider.create(slider, {
-      start: 40,
-      connect: [true, false],
-      range: {
-        min: 0,
-        max: 100
-      }
-    });
-
-    var slider2 = document.getElementById('sliderDouble');
-
-    noUiSlider.create(slider2, {
-      start: [20, 60],
-      connect: true,
-      range: {
-        min: 0,
-        max: 100
       }
     });
   },
