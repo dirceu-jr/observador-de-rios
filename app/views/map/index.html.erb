@@ -204,52 +204,6 @@ $(document).on('turbolinks:load', function() {
                 "name": "Run 001"
             });
         }, 3000);
-
-
-        var data2 = {
-            "gpx": {
-                "wpt": [
-                    {
-                        "lat": "-25.398557",
-                        "lon": "-49.193817",
-                        "ele": "0.98652",
-                        "name": "Run 001"
-                    },
-                    {
-                        "lat": "-25.403674",
-                        "lon": "-49.194675",
-                        "ele": "0.98652",
-                        "name": "Run 001"
-                    }
-                ]
-            }
-        }
-
-        var dataLayer2 = new L.FlowLine(data2, {
-            recordsField: 'gpx.wpt',
-            locationMode: L.LocationModes.LATLNG,
-            latitudeField: 'lat',
-            longitudeField: 'lon',
-            legendOptions: {
-                className: 'legend-line',
-                numSegments: 20
-            },
-            tooltipOptions: {
-                className: 'line-legend leaflet-div-icon',
-                iconSize: null
-            },
-            displayOptions: {
-                ele: {
-                    displayName: 'Qualidade da água',
-                    weight: 8,
-                    color: new L.HSLHueFunction([0, 120], [16, -30])
-                }
-            },
-            layerOptions: {
-                opacity: 1.0
-            }
-        });
-        map.addLayer(dataLayer2);
     }
 });
 </script>
