@@ -39,6 +39,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'activeadmin', '~> 1.3.1'
 gem 'devise', '~> 4.5.0'
+gem 'carrierwave', '~> 1.2.3'
+gem 'carrierwave-vips', '~> 1.2.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
