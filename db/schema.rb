@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_015708) do
+ActiveRecord::Schema.define(version: 2018_11_11_021129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,21 @@ ActiveRecord::Schema.define(version: 2018_11_11_015708) do
     t.boolean "isvisible"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.bigint "station_id"
+    t.decimal "latitude", precision: 12, scale: 7
+    t.decimal "longitude", precision: 12, scale: 7
+    t.decimal "ph", precision: 8, scale: 2
+    t.decimal "orp", precision: 8, scale: 2
+    t.decimal "od", precision: 8, scale: 2
+    t.decimal "condutivity", precision: 8, scale: 2
+    t.decimal "temperature", precision: 8, scale: 2
+    t.decimal "co2", precision: 8, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["station_id"], name: "index_statuses_on_station_id"
   end
 
 end
