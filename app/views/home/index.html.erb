@@ -1,371 +1,202 @@
-<% provide(:title, 'Estação Gralha Azul') %>
-
-<div class="content">
-    <div class="container-fluid">
-
-        <div class="row">
-
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-success card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">navigation</i>
-                        </div>
-                        <p class="card-category">Navegou</p>
-                        <h3 class="card-title">120,05
-                            <small>KM</small>
-                        </h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">date_range</i>
-                            Desde o dia 10/01/2019
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-info card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">colorize</i>
-                        </div>
-                        <p class="card-category">Pontos coletados</p>
-                        <h3 class="card-title">75</h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">date_range</i>
-                            Desde o dia 10/01/2019 
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                    <div class="card-header card-header-primary card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">camera_enhance</i>
-                        </div>
-                        <p class="card-category">Fotos tiradas</p>
-                        <h3 class="card-title">10</h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">date_range</i>
-                            Desde o dia 10/01/2019 
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-            
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-success">
-                        <div class="ct-chart" id="pHChart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">pH</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-info">
-                        <div class="ct-chart" id="ORPChart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">ORP</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-primary">
-                        <div class="ct-chart" id="DOChart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Oxigênio Dissolvido</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-rose">
-                        <div class="ct-chart" id="conductivityChart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Condutividade</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-danger">
-                        <div class="ct-chart" id="temperatureChart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">Temperatura</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-warning">
-                        <div class="ct-chart" id="co2Chart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">CO2 na superficie</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <h4>Mapa</h4>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card-body">
-                    <div class="iframe-container d-none d-lg-block">
-                        <div id="single_station_map"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pics -->
-        <h4>Fotos</h4>
-
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card card-chart">
-                    <div class="card-header card-header-success">
-                        <img src="<%= asset_path "pics1.jpg" %>" width="100%">
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> 20 minutos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-chart">
-                    <div class="card-header card-header-info">
-                        <img src="<%= asset_path "pics1.jpg" %>" width="100%">
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> 15 minutos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-chart">
-                    <div class="card-header card-header-rose">
-                        <img src="<%= asset_path "pics1.jpg" %>" width="100%">
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> 10 minutos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-chart">
-                    <div class="card-header card-header-warning">
-                        <img src="<%= asset_path "pics1.jpg" %>" width="100%">
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> 5 minutos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
+<div id="map"></div>
 
 <script>
 $(document).on('turbolinks:load', function() {
-  // Javascript method's body can be found in assets/js/demos.js
-  md.initDashboardPageCharts();
-});
-</script>
+    if ($('#map').length != 0) {
 
-<script>
-if ($('#single_station_map').length != 0) {
+        var map;
+        var legendControl;
 
-    var map;
-    var legendControl;
+        // Function for resizing the map to fill the available space on the screen
+        var resize = function () {
+            var $map = $('#map');
 
-    // // Function for resizing the map to fill the available space on the screen
-    // var resize = function () {
-    //     var $map = $('#single_station_map');
-    // };
+            $map.height($(window).height() - $('nav.navbar').outerHeight());
 
-    // // Resize the map element on window resize
-    // $(window).on('resize', function () {
-    //     resize();
-    // });
-
-    // // Resize the map element
-    // resize();
-    // Initialize the map
-    map = L.map('single_station_map').setView([-25.379659, -49.194844], 15);
-
-    // var baseLayer = new L.StamenTileLayer('toner', {
-    //     detectRetina: true
-    // }).addTo(map);
-
-    var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        detectRetina: true,
-        
-    });
-
-    baseLayer.addTo(map);
-
-    // Initialize the legend control and add it to the map
-    var legendControl = new L.Control.Legend();
-
-    legendControl.addTo(map);
-
-    // var layerControl = new L.Control.Layers({
-    //     'Stamen Toner': baseLayer
-    // });
-
-    // layerControl.addTo(map);
-
-    // custom icone prototype
-    
-    var station_icon = L.icon({
-        iconUrl: "<%= asset_path("baseline_directions_boat_black_18dp.png") %>",
-        iconSize: [36, 36]
-    });
-
-    var cwb_station = L.marker([-25.379659, -49.194844], {icon: station_icon}).addTo(map);
-
-    var data2 = {
-        "gpx": {
-            "wpt": [
-                {
-                    "lat": "-25.377836",
-                    "lon": "-49.195574",
-                    "ele": "0.98652",
-                    "name": "Run 001"
-                },
-                {
-                    "lat": "-25.378728",
-                    "lon": "-49.194973",
-                    "ele": "0.98652",
-                    "name": "Run 001"
-                },
-                {
-                    "lat": "-25.379659",
-                    "lon": "-49.194844",
-                    "ele": "8.0",
-                    "name": "Run 001"
-                }
-            ]
-        }
-    }
-
-    var dataLayer2 = new L.FlowLine(data2, {
-        recordsField: 'gpx.wpt',
-        locationMode: L.LocationModes.LATLNG,
-        latitudeField: 'lat',
-        longitudeField: 'lon',
-        legendOptions: {
-            className: 'legend-line',
-            numSegments: 20
-        },
-        tooltipOptions: {
-            className: 'line-legend leaflet-div-icon',
-            iconSize: null
-        },
-        displayOptions: {
-            ele: {
-                displayName: 'Qualidade da água',
-                weight: 8,
-                color: new L.HSLHueFunction([0, 120], [16, -30])
+            if (map) {
+                map.invalidateSize();
             }
-        },
-        layerOptions: {
-            opacity: 1.0
-        }
-    });
-    map.addLayer(dataLayer2);
+        };
 
-    setTimeout(function() {
-        cwb_station.setLatLng([-25.380667, -49.195145]);
-        dataLayer2.addRecord({
-            "lat": "-25.380667",
-            "lon": "-49.195145",
-            "ele": "1.98652",
-            "name": "Run 001"
+        // Resize the map element on window resize
+        $(window).on('resize', function () {
+            resize();
         });
-    }, 1000);
-    
-    setTimeout(function() {
-        cwb_station.setLatLng([-25.381908, -49.195273]);
-        dataLayer2.addRecord({
-            "lat": "-25.381908",
-            "lon": "-49.195273",
-            "ele": "1.98652",
-            "name": "Run 001"
-        });
-    }, 2000);
 
-    setTimeout(function() {
-        cwb_station.setLatLng([-25.383187, -49.194630]);
-        dataLayer2.addRecord({
-            "lat": "-25.383187",
-            "lon": "-49.194630",
-            "ele": "1.98652",
-            "name": "Run 001"
+        // Resize the map element
+        resize();
+
+        // Initialize the map
+        map = L.map('map').setView([-22.991439, -49.907298], 7);
+
+        // var baseLayer = new L.StamenTileLayer('toner', {
+        //     detectRetina: true
+        // }).addTo(map);
+
+        var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            detectRetina: true
         });
-    }, 3000);
-}
+
+        baseLayer.addTo(map);
+
+        // Initialize the legend control and add it to the map
+        var legendControl = new L.Control.Legend();
+
+        legendControl.addTo(map);
+
+        // var layerControl = new L.Control.Layers({
+        //     'Stamen Toner': baseLayer
+        // });
+
+        // layerControl.addTo(map);
+
+        var data = {
+            "gpx": {
+                "wpt": [
+                    {
+                        "lat": "-21.671702",
+                        "lon": "-49.215927",
+                        "ele": "0.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.667257",
+                        "lon": "-49.243397",
+                        "ele": "1.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.645577",
+                        "lon": "-49.264694",
+                        "ele": "2.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.602838",
+                        "lon": "-49.285307",
+                        "ele": "3.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.569030",
+                        "lon": "-49.314825",
+                        "ele": "4.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.547338",
+                        "lon": "-49.341585",
+                        "ele": "5.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.534573",
+                        "lon": "-49.382057",
+                        "ele": "6.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.516052",
+                        "lon": "-49.420465",
+                        "ele": "10.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.475102",
+                        "lon": "-49.464484",
+                        "ele": "4.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.433580",
+                        "lon": "-49.507031",
+                        "ele": "3.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.390760",
+                        "lon": "-49.555731",
+                        "ele": "2.98652",
+                        "name": "Run 001"
+                    },
+                    {
+                        "lat": "-21.360697",
+                        "lon": "-49.601678",
+                        "ele": "1.98652",
+                        "name": "Run 001"
+                    }
+                ]
+            }
+        };
+
+        var dataLayer = new L.FlowLine(data, {
+            recordsField: 'gpx.wpt',
+            locationMode: L.LocationModes.LATLNG,
+            latitudeField: 'lat',
+            longitudeField: 'lon',
+            legendOptions: {
+                className: 'legend-line',
+                numSegments: 20
+            },
+            tooltipOptions: {
+                className: 'line-legend leaflet-div-icon',
+                iconSize: null
+            },
+            displayOptions: {
+                ele: {
+                    displayName: 'Qualidade da água',
+                    weight: 8,
+                    color: new L.HSLHueFunction([0, 120], [16, -30])
+                }
+            },
+            layerOptions: {
+                opacity: 1.0
+            }
+        });
+
+        // Add the data layer to the layer control
+        map.addLayer(dataLayer);
+
+        // custom icone prototype
+        
+        var station_icon = L.icon({
+            iconUrl: "<%= asset_path("paper-boat.png") %>",
+            iconSize: [36, 36]
+        });
+
+        var station = L.marker([-21.360697, -49.601678], {icon: station_icon}).addTo(map);
+
+        var cwb_station = L.marker([-25.405952, -49.194728], {icon: station_icon}).addTo(map);
+
+        setTimeout(function() {
+            station.setLatLng([-21.349653, -49.642171]);
+            dataLayer.addRecord({
+                "lat": "-21.349653",
+                "lon": "-49.642171",
+                "ele": "1.98652",
+                "name": "Run 001"
+            });
+        }, 1000);
+        
+        setTimeout(function() {
+            station.setLatLng([-21.328487, -49.678610]);
+            dataLayer.addRecord({
+                "lat": "-21.328487",
+                "lon": "-49.678610",
+                "ele": "1.98652",
+                "name": "Run 001"
+            });
+        }, 2000);
+
+        setTimeout(function() {
+            station.setLatLng([-21.302880, -49.716625]);
+            dataLayer.addRecord({
+                "lat": "-21.302880",
+                "lon": "-49.716625",
+                "ele": "1.98652",
+                "name": "Run 001"
+            });
+        }, 3000);
+    }
+});
 </script>

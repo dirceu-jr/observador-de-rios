@@ -31,20 +31,23 @@
         <ul class="nav">
           <li class="nav-item <%= params[:controller] == 'home' && params[:action] == 'index' ? 'active' : '' %>">
             <a class="nav-link" href="/">
-              <i class="material-icons">dashboard</i>
-              <p>Estação Gralha Azul</p>
-            </a>
-          </li>
-          <li class="nav-item  <%= params[:controller] == 'map' ? 'active' : '' %>">
-            <a class="nav-link" href="/map">
               <i class="material-icons">location_ons</i>
-              <p>Mapa</p>
+              <p>Todas estações</p>
             </a>
           </li>
+          <% stations.each do |station| %>
+          <li class="nav-item <%= params[:controller] == "stations" && params[:id].to_i == station.id ? 'active' : ''%>">
+          <%= link_to station, class: 'nav-link' do %>
+            <i class="material-icons">dashboard</i>
+            <p><%= station.name %></p>
+          <% end %>
+          </li>
+          <% end %>
         </ul>
       </div>
     </div>
     <div class="main-panel">
+      <% if yield(:title) != "" %>
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
@@ -54,6 +57,7 @@
         </div>
       </nav>
       <!-- End Navbar -->
+      <% end %>
       
       <%= yield %>
 
