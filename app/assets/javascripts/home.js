@@ -517,6 +517,12 @@ var md = {
         });
 
         seq = 0;
+    },
+    
+    openModal: function(el) {
+        var full_size = $(el).data('full_size');
+        $('#modal-body').html('<img width="766" src="' + full_size + '" />');
+        $('#modal').modal({});
     }
 }
 
