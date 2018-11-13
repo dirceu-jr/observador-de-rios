@@ -1,24 +1,13 @@
-# README
+# Observador de Rios
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Demonstração: [https://serene-fjord-33420.herokuapp.com](https://serene-fjord-33420.herokuapp.com)
 
-Things you may want to cover:
+A ONG *SOS Mata Atlântica* desenvolve desde 1991 o projeto [Observando Rios](https://www.sosma.org.br/projeto/observando-os-rios/).
 
-* Ruby version
+Em Novembro de 2018 iniciei o projeto "Observador de Rios" com o objetivo de melhorar a capacidade de monitoramento dos rios, corregos e outros corpos de água.
 
-* System dependencies
+Para aumentar a capacidade de monitoramento será desenvolvida uma estação móvel que transmite leituras de pH, ORP, Oxigênio Dissolvido, Condutividade, Temperatura e CO2 na superficie.
 
-* Configuration
+Os resultados das leituras serão exibidos em tempo-real nessa interface de código aberto que pode ser desenvolvida de forma colaborativa.
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+O desenvolvimento da estação móvel e do sistema embarcado deve iniciar em breve com o uso de hardware de código aberto [BeagleBone Blue](http://beagleboard.org/blue), [Arduino](http://arduino.cc) e/ou [Raspberry Pi](https://www.raspberrypi.org/). Os sensores devem ser [os da Atlas-Scientific](https://www.atlas-scientific.com/kits.html).
