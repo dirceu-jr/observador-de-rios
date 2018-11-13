@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   get 'home/index'
   get '/sobre', controller: "home", action: "about"
-  get 'map', controller: "map", action: "index"
-  root 'home#index'
 
   resources :stations, only: [:index, :show]
+
+  root 'home#index'
 end
