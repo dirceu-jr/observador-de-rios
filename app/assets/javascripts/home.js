@@ -16,17 +16,17 @@
  */
 
 (function() {
-    isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
-  
-    if (isWindows) {
-      // if we are on windows OS we activate the perfectScrollbar function
-      $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
-  
-      $('html').addClass('perfect-scrollbar-on');
-    } else {
-      $('html').addClass('perfect-scrollbar-off');
-    }
-  })();
+  var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
+
+  if (isWindows) {
+    // if we are on windows OS we activate the perfectScrollbar function
+    $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+    $('html').addClass('perfect-scrollbar-on');
+  } else {
+    $('html').addClass('perfect-scrollbar-off');
+  }
+})();
   
   
   var breakCards = true;
@@ -144,7 +144,7 @@
     }, 500);
   });
   
-  md = {
+  var md = {
     misc: {
       navbar_menu_visible: 0,
       active_collapse: true,
@@ -191,19 +191,31 @@
     initDashboardPageCharts: function() {
   
       if (
-          $('#pHChart').length != 0
+          ($('#pHChart').length != 0
           || $('#ORPChart').length != 0
           || $('#DOChart').length != 0
           || $('#conductivityChart').length != 0
           || $('#temperatureChart').length != 0
-          || $('#co2Chart').length != 0
+          || $('#co2Chart').length != 0) && statuses
         ) {
         /* ----------==========     pH     ==========---------- */
-  
+
+        var past_time_labels = ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'];
+        
+        var
+          ph_labels = [],
+          ph_series = []
+        ;
+
+        for (status in statuses) {
+          ph_labels.push(past_time_labels[status]);
+          ph_series.push(statuses[status].ph);
+        }
+
         datapHChart = {
-          labels: ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'],
+          labels: ph_labels,
           series: [
-            [12, 17, 7, 17, 23, 18, 38]
+            ph_series
           ]
         };
   
@@ -212,7 +224,7 @@
         //     tension: 0
         //   }),
           low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          high: 14, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: {
             top: 0,
             right: 0,
@@ -228,10 +240,20 @@
   
         /* ----------==========     ORP    ==========---------- */
   
+        var
+          orp_labels = [],
+          orp_series = []
+        ;
+
+        for (status in statuses) {
+          orp_labels.push(past_time_labels[status]);
+          orp_series.push(statuses[status].orp);
+        }
+
         dataORPChart = {
-          labels: ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'],
+          labels: orp_labels,
           series: [
-            [230, 750, 450, 300, 280, 240, 200]
+            orp_series
           ]
         };
   
@@ -240,7 +262,7 @@
         //     tension: 0
         //   }),
           low: 0,
-          high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: {
             top: 0,
             right: 0,
@@ -257,16 +279,26 @@
   
         /* ----------==========    Dissolved Oxygen    ==========---------- */
   
+        var
+          do_labels = [],
+          do_series = []
+        ;
+
+        for (status in statuses) {
+          do_labels.push(past_time_labels[status]);
+          do_series.push(statuses[status].od);
+        }
+
         var dataDOChart = {
-          labels: ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'],
+          labels: do_labels,
           series: [
-            [542, 443, 320, 780, 553, 453, 326]
-  
+            do_series
           ]
-        };
+        }
+
         var optionsDOChart = {
           low: 0,
-          high: 1000,
+          high: 50,
           chartPadding: {
             top: 0,
             right: 5,
@@ -281,16 +313,25 @@
 
         /* ----------==========    Dissolved Oxygen    ==========---------- */
   
+        var
+          conductivity_labels = [],
+          conductivity_series = []
+        ;
+
+        for (status in statuses) {
+          conductivity_labels.push(past_time_labels[status]);
+          conductivity_series.push(statuses[status].conductivity);
+        }
+
         var dataconductivityChart = {
-            labels: ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'],
+            labels: conductivity_labels,
             series: [
-              [542, 443, 320, 780, 553, 453, 326]
-    
+              conductivity_series
             ]
           };
           var optionsconductivityChart = {
             low: 0,
-            high: 1000,
+            high: 50,
             chartPadding: {
               top: 0,
               right: 5,
@@ -305,16 +346,25 @@
 
         /* ----------==========    Temperature    ==========---------- */
   
+        var
+          temperature_labels = [],
+          temperature_series = []
+        ;
+
+        for (status in statuses) {
+          temperature_labels.push(past_time_labels[status]);
+          temperature_series.push(statuses[status].temperature);
+        }
+
         var dataTemperatureChart = {
-            labels: ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'],
+            labels: temperature_labels,
             series: [
-              [542, 443, 320, 780, 553, 453, 326]
-    
+              temperature_series
             ]
           };
           var optionsTemperatureChart = {
             low: 0,
-            high: 1000,
+            high: 50,
             chartPadding: {
               top: 0,
               right: 5,
@@ -329,16 +379,25 @@
 
           /* ----------==========    CO2    ==========---------- */
   
+        var
+          co2_labels = [],
+          co2_series = []
+        ;
+
+        for (status in statuses) {
+          co2_labels.push(past_time_labels[status]);
+          co2_series.push(statuses[status].co2);
+        }
+
         var dataCo2Chart = {
-            labels: ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'],
+            labels: co2_labels,
             series: [
-              [542, 443, 320, 780, 553, 453, 326]
-    
+              co2_series
             ]
           };
           var optionsCo2Chart = {
             low: 0,
-            high: 1000,
+            high: 50,
             chartPadding: {
               top: 0,
               right: 5,
@@ -466,22 +525,22 @@
       seq = 0;
     }
   }
-  
-  // Returns a function, that, as long as it continues to be invoked, will not
-  // be triggered. The function will be called after it stops being called for
-  // N milliseconds. If `immediate` is passed, trigger the function on the
-  // leading edge, instead of the trailing.
-  
-  function debounce(func, wait, immediate) {
-    var timeout;
-    return function() {
-      var context = this,
-        args = arguments;
-      clearTimeout(timeout);
-      timeout = setTimeout(function() {
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-      }, wait);
-      if (immediate && !timeout) func.apply(context, args);
-    };
-  };
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function() {
+    var context = this,
+      args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    }, wait);
+    if (immediate && !timeout) func.apply(context, args);
+  }
+}

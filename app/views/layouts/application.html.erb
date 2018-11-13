@@ -39,7 +39,7 @@
           <li class="nav-item <%= params[:controller] == "stations" && params[:id].to_i == station.id ? 'active' : ''%>">
           <%= link_to station, class: 'nav-link' do %>
             <i class="material-icons">dashboard</i>
-            <p><%= station.name %></p>
+            <p>Estação <%= station.name %></p>
           <% end %>
           </li>
           <% end %>

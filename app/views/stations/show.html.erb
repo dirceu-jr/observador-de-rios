@@ -1,4 +1,4 @@
-<% provide(:title, 'Estação Gralha Azul') %>
+<% provide(:title, "Estação #{@station.name}") %>
 
 <div class="content">
     <div class="container-fluid">
@@ -12,14 +12,14 @@
                             <i class="material-icons">navigation</i>
                         </div>
                         <p class="card-category">Navegou</p>
-                        <h3 class="card-title">120,05
+                        <h3 class="card-title"><%= @station.navigated %>
                             <small>KM</small>
                         </h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">date_range</i>
-                            Desde o dia 10/01/2019
+                            Desde o dia <%= @station.created_at.strftime("%d/%m/%Y") %>
                         </div>
                     </div>
                 </div>
@@ -32,12 +32,12 @@
                             <i class="material-icons">colorize</i>
                         </div>
                         <p class="card-category">Pontos coletados</p>
-                        <h3 class="card-title">75</h3>
+                        <h3 class="card-title"><%= @station.status_count %></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">date_range</i>
-                            Desde o dia 10/01/2019 
+                            Desde o dia <%= @station.created_at.strftime("%d/%m/%Y") %> 
                         </div>
                     </div>
                 </div>
@@ -50,12 +50,12 @@
                             <i class="material-icons">camera_enhance</i>
                         </div>
                         <p class="card-category">Fotos tiradas</p>
-                        <h3 class="card-title">10</h3>
+                        <h3 class="card-title"><%= @station.photos_count %></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
                             <i class="material-icons">date_range</i>
-                            Desde o dia 10/01/2019 
+                            Desde o dia <%= @station.created_at.strftime("%d/%m/%Y") %>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
+                            <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.last.created_at) %>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
+                            <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.last.created_at) %>
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
+                            <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.last.created_at) %>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
+                            <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.last.created_at) %>
                         </div>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
+                            <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.last.created_at) %>
                         </div>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado 5 segundos atrás
+                            <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.last.created_at) %>
                         </div>
                     </div>
                 </div>
@@ -174,54 +174,20 @@
         <h4>Fotos</h4>
 
         <div class="row">
+            <% @photos.each do |photo| %>
             <div class="col-md-3">
                 <div class="card card-chart">
-                    <div class="card-header card-header-primary">
-                        <img src="<%= asset_path "pics1.jpg" %>" width="100%">
+                    <div class="card-header card-header-info">
+                        <img src="<%= photo.file.url %>" width="100%">
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> 20 minutos atrás
+                            <i class="material-icons">access_time</i> <%= time_ago_in_words(photo.created_at) %>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card card-chart">
-                    <div class="card-header card-header-primary">
-                        <img src="<%= asset_path "pics1.jpg" %>" width="100%">
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> 15 minutos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-chart">
-                    <div class="card-header card-header-primary">
-                        <img src="<%= asset_path "pics1.jpg" %>" width="100%">
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> 10 minutos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-chart">
-                    <div class="card-header card-header-primary">
-                        <img src="<%= asset_path "pics1.jpg" %>" width="100%">
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> 5 minutos atrás
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <% end %>
         </div>
 
     </div>
@@ -229,14 +195,13 @@
 </div>
 
 <script>
+var statuses = <%= raw @statuses.to_json %>;
+
 $(document).on('turbolinks:load', function() {
   // Javascript method's body can be found in assets/js/demos.js
   md.initDashboardPageCharts();
-});
-</script>
 
-<script>
-if ($('#single_station_map').length != 0) {
+  if ($('#single_station_map').length != 0) {
 
     var map;
     var legendControl;
@@ -256,13 +221,8 @@ if ($('#single_station_map').length != 0) {
     // Initialize the map
     map = L.map('single_station_map').setView([-25.379659, -49.194844], 15);
 
-    // var baseLayer = new L.StamenTileLayer('toner', {
-    //     detectRetina: true
-    // }).addTo(map);
-
     var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        detectRetina: true,
-        
+        detectRetina: true
     });
 
     baseLayer.addTo(map);
@@ -287,28 +247,18 @@ if ($('#single_station_map').length != 0) {
 
     var cwb_station = L.marker([-25.379659, -49.194844], {icon: station_icon}).addTo(map);
 
+    var track = [];
+    for (status in statuses) {
+        track.push({
+            "lat": statuses[status].latitude,
+            "lon": statuses[status].longitude,
+            "ele": statuses[status].ph
+        });
+    }
+
     var data2 = {
         "gpx": {
-            "wpt": [
-                {
-                    "lat": "-25.377836",
-                    "lon": "-49.195574",
-                    "ele": "0.98652",
-                    "name": "Run 001"
-                },
-                {
-                    "lat": "-25.378728",
-                    "lon": "-49.194973",
-                    "ele": "0.98652",
-                    "name": "Run 001"
-                },
-                {
-                    "lat": "-25.379659",
-                    "lon": "-49.194844",
-                    "ele": "8.0",
-                    "name": "Run 001"
-                }
-            ]
+            "wpt": track
         }
     }
 
@@ -367,5 +317,7 @@ if ($('#single_station_map').length != 0) {
             "name": "Run 001"
         });
     }, 3000);
-}
+  }
+});
+
 </script>
