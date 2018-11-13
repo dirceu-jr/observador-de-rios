@@ -29,27 +29,28 @@
 })();
 
 
-var breakCards = true;
-
-var searchVisible = 0;
-var transparent = true;
-
-var transparentDemo = true;
-var fixedTop = false;
-
-var mobile_menu_visible = 0,
+var
+    breakCards = true,
+    
+    searchVisible = 0,
+    transparent = true,
+    
+    transparentDemo = true,
+    fixedTop = false,
+    
+    mobile_menu_visible = 0,
     mobile_menu_initialized = false,
     toggle_initialized = false,
-    bootstrap_nav_initialized = false;
+    bootstrap_nav_initialized = false,
 
-var
     seq = 0,
     delays = 80,
-    durations = 500;
-var
+    durations = 500,
+
     seq2 = 0,
     delays2 = 80,
-    durations2 = 500;
+    durations2 = 500
+;
 
 $(document).on('turbolinks:load', function () {
 
@@ -83,7 +84,7 @@ $(document).on('turbolinks:load', function () {
 });
 
 $(document).on('click', '.navbar-toggler', function () {
-    $toggle = $(this);
+    var $toggle = $(this);
 
     if (mobile_menu_visible == 1) {
         $('html').removeClass('nav-open');
@@ -148,7 +149,7 @@ var md = {
     misc: {
         navbar_menu_visible: 0,
         active_collapse: true,
-        disabled_collapse_init: 0,
+        disabled_collapse_init: 0
     },
 
     checkSidebarImage: function () {
