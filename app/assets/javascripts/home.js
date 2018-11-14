@@ -199,27 +199,30 @@ var md = {
                 $('#temperatureChart').length != 0 ||
                 $('#co2Chart').length != 0) && statuses
         ) {
-            /* ----------==========     pH     ==========---------- */
 
             var past_time_labels = ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'];
 
+
+            /* ----------==========     pH     ==========---------- */
+
             var
                 ph_labels = [],
-                ph_series = [];
+                ph_series = []
+            ;
 
             for (status in statuses) {
                 ph_labels.push(past_time_labels[status]);
                 ph_series.push(statuses[status].ph);
             }
 
-            datapHChart = {
+            var datapHChart = {
                 labels: ph_labels,
                 series: [
                     ph_series
                 ]
             };
 
-            optionspHChart = {
+            var optionspHChart = {
                 //   lineSmooth: Chartist.Interpolation.cardinal({
                 //     tension: 0
                 //   }),
@@ -242,21 +245,22 @@ var md = {
 
             var
                 orp_labels = [],
-                orp_series = [];
+                orp_series = []
+            ;
 
             for (status in statuses) {
                 orp_labels.push(past_time_labels[status]);
                 orp_series.push(statuses[status].orp);
             }
 
-            dataORPChart = {
+            var dataORPChart = {
                 labels: orp_labels,
                 series: [
                     orp_series
                 ]
             };
 
-            optionsORPChart = {
+            var optionsORPChart = {
                 //   lineSmooth: Chartist.Interpolation.cardinal({
                 //     tension: 0
                 //   }),
@@ -280,7 +284,8 @@ var md = {
 
             var
                 do_labels = [],
-                do_series = [];
+                do_series = []
+            ;
 
             for (status in statuses) {
                 do_labels.push(past_time_labels[status]);
@@ -313,7 +318,8 @@ var md = {
 
             var
                 conductivity_labels = [],
-                conductivity_series = [];
+                conductivity_series = []
+            ;
 
             for (status in statuses) {
                 conductivity_labels.push(past_time_labels[status]);
@@ -345,7 +351,8 @@ var md = {
 
             var
                 temperature_labels = [],
-                temperature_series = [];
+                temperature_series = []
+            ;
 
             for (status in statuses) {
                 temperature_labels.push(past_time_labels[status]);
@@ -377,7 +384,8 @@ var md = {
 
             var
                 co2_labels = [],
-                co2_series = [];
+                co2_series = []
+            ;
 
             for (status in statuses) {
                 co2_labels.push(past_time_labels[status]);
@@ -457,7 +465,6 @@ var md = {
             mobile_menu_content = '';
 
             nav_content = $navbar.html();
-
             nav_content = '<ul class="nav navbar-nav nav-mobile-menu">' + nav_content + '</ul>';
 
             navbar_form = $('nav').find('.navbar-form').get(0).outerHTML;

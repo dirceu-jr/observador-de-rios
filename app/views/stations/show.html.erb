@@ -1,4 +1,4 @@
-<% provide(:title, "Estação #{@station.name}") %>
+<% provide(:title, "Estação #{@station.name} - Atualizando em 30 segundos") %>
 
 <div class="content">
     <div class="container-fluid">
@@ -12,7 +12,7 @@
                             <i class="material-icons">navigation</i>
                         </div>
                         <p class="card-category">Navegou</p>
-                        <h3 class="card-title"><%= @station.navigated %>
+                        <h3 class="card-title" id="station-navigated"><%= @station.navigated %>
                             <small>KM</small>
                         </h3>
                     </div>
@@ -32,7 +32,7 @@
                             <i class="material-icons">colorize</i>
                         </div>
                         <p class="card-category">Pontos coletados</p>
-                        <h3 class="card-title"><%= @station.status_count %></h3>
+                        <h3 class="card-title" id="colected_count"><%= @station.status_count %></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -50,7 +50,7 @@
                             <i class="material-icons">camera_enhance</i>
                         </div>
                         <p class="card-category">Fotos tiradas</p>
-                        <h3 class="card-title"><%= @station.photos_count %></h3>
+                        <h3 class="card-title" id="photos_count"><%= @station.photos_count %></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -220,8 +220,10 @@ $(document).on('turbolinks:load', function() {
 
   if ($('#single_station_map').length != 0) {
 
-    var map;
-    var legendControl;
+    var
+        map,
+        legendControl
+    ;
 
     // // Function for resizing the map to fill the available space on the screen
     // var resize = function () {
@@ -236,7 +238,11 @@ $(document).on('turbolinks:load', function() {
     // // Resize the map element
     // resize();
     // Initialize the map
-    map = L.map('single_station_map').setView([-25.379659, -49.194844], 15);
+    if (statuses[0]) {
+        map = L.map('single_station_map').setView([statuses[0].latitude, statuses[0].longitude], 15);
+    } else {
+        map = L.map('single_station_map').setView([-25.379659, -49.194844], 15);
+    }
 
     var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         detectRetina: true
@@ -249,28 +255,28 @@ $(document).on('turbolinks:load', function() {
 
     legendControl.addTo(map);
 
-    // var layerControl = new L.Control.Layers({
-    //     'Stamen Toner': baseLayer
-    // });
-
-    // layerControl.addTo(map);
-
-    // custom icone prototype
+    // custom icon prototype
     
     var station_icon = L.icon({
         iconUrl: "<%= asset_path("paper-boat.png") %>",
         iconSize: [36, 36]
     });
 
-    var cwb_station = L.marker([-25.379659, -49.194844], {icon: station_icon}).addTo(map);
+    if (statuses[0]) {
+        var cwb_station = L.marker([statuses[0].latitude, statuses[0].longitude], { icon: station_icon }).addTo(map);
+    }
 
-    var track = [];
-    for (status in statuses) {
+    var
+        track = [],
+        current_status_ids = []
+    ;
+    for (var i = statuses.length; i--;) {
         track.push({
-            "lat": statuses[status].latitude,
-            "lon": statuses[status].longitude,
-            "ele": statuses[status].ph
+            "lat": statuses[i].latitude,
+            "lon": statuses[i].longitude,
+            "ele": statuses[i].ph
         });
+        current_status_ids.push(statuses[i].id);
     }
 
     var data2 = {
@@ -305,35 +311,51 @@ $(document).on('turbolinks:load', function() {
     });
     map.addLayer(dataLayer2);
 
-    setTimeout(function() {
-        cwb_station.setLatLng([-25.380667, -49.195145]);
-        dataLayer2.addRecord({
-            "lat": "-25.380667",
-            "lon": "-49.195145",
-            "ele": "1.98652",
-            "name": "Run 001"
-        });
-    }, 1000);
-    
-    setTimeout(function() {
-        cwb_station.setLatLng([-25.381908, -49.195273]);
-        dataLayer2.addRecord({
-            "lat": "-25.381908",
-            "lon": "-49.195273",
-            "ele": "1.98652",
-            "name": "Run 001"
-        });
-    }, 2000);
+    var
+        original_title = $(".navbar-brand").html().split("-")[0],
+        time_to_refresh = 30,
+        time_to_refresh_counter = time_to_refresh
+    ;
 
-    setTimeout(function() {
-        cwb_station.setLatLng([-25.383187, -49.194630]);
-        dataLayer2.addRecord({
-            "lat": "-25.383187",
-            "lon": "-49.194630",
-            "ele": "1.98652",
-            "name": "Run 001"
-        });
-    }, 3000);
+    // auto refresh
+    setInterval(function() {
+        $(".navbar-brand").html(original_title + " &mdash; Atualizando em " + (time_to_refresh_counter) + " segundos <img src='<%= asset_path "ajax-loader.gif" %>' />");
+
+        time_to_refresh_counter--;
+
+        if (time_to_refresh <= 0) {
+            time_to_refresh = time_to_refresh;
+
+            $.ajax({
+                url: "/stations/<%= params[:id] %>.json"
+            }).done(function(data) {
+                statuses = data.statuses;
+
+                $("#station-navigated").text(data.navigated);
+                $("#colected_count").text(data.status_count);
+                $("#photos_count").text(data.photos_count);
+
+                md.initDashboardPageCharts();
+                
+                // only when new statuses
+                for (status in statuses) {
+                    if (current_status_ids.indexOf(statuses[status].id) == -1) {
+                        cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
+                        dataLayer2.addRecord({
+                            "lat": statuses[status].latitude,
+                            "lon": statuses[status].longitude,
+                            "ele": statuses[status].do
+                        });
+                        current_status_ids.push(statuses[status].id);
+                    }
+                }
+                
+            });
+
+        }
+
+    }, 1000);
+
   }
 });
 
