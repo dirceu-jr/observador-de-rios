@@ -141,7 +141,7 @@ var stations = {
                 high: 50,
                 chartPadding: {
                     top: 0,
-                    right: 5,
+                    right: 0,
                     bottom: 0,
                     left: 0
                 }
@@ -173,7 +173,7 @@ var stations = {
                 high: 50,
                 chartPadding: {
                     top: 0,
-                    right: 5,
+                    right: 0,
                     bottom: 0,
                     left: 0
                 }
@@ -205,7 +205,7 @@ var stations = {
                 high: 50,
                 chartPadding: {
                     top: 0,
-                    right: 5,
+                    right: 0,
                     bottom: 0,
                     left: 0
                 }
@@ -237,7 +237,7 @@ var stations = {
                 high: 50,
                 chartPadding: {
                     top: 0,
-                    right: 5,
+                    right: 0,
                     bottom: 0,
                     left: 0
                 }
@@ -390,13 +390,23 @@ $(document).on('turbolinks:load', function () {
                 }).done(function (data) {
                     statuses = data.statuses;
 
+                    // updates dashboard
                     $("#station-navigated").text(data.navigated);
                     $("#colected_count").text(data.status_count);
                     $("#photos_count").text(data.photos_count);
 
+                    // updates charts
                     stations.initDashboardPageCharts();
 
-                    // only when new statuses
+                    // updates time_ago in charts
+                    $('.stats.pHChart').html(statuses[0].time_ago);
+                    $('.stats.ORPChart').html(statuses[0].time_ago);
+                    $('.stats.DOChart').html(statuses[0].time_ago);
+                    $('.stats.conductivityChart').html(statuses[0].time_ago);
+                    $('.stats.temperatureChart').html(statuses[0].time_ago);
+                    $('.stats.co2Chart').html(statuses[0].time_ago);
+
+                    // add top map only when new statuses
                     for (status in statuses) {
                         if (current_status_ids.indexOf(statuses[status].id) == -1) {
                             cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
