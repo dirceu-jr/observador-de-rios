@@ -323,8 +323,8 @@ $(document).on('turbolinks:load', function() {
 
         time_to_refresh_counter--;
 
-        if (time_to_refresh <= 0) {
-            time_to_refresh = time_to_refresh;
+        if (time_to_refresh_counter <= 0) {
+            time_to_refresh_counter = time_to_refresh;
 
             $.ajax({
                 url: "/stations/<%= params[:id] %>.json"
