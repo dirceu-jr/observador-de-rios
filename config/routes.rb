@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/sobre', controller: "home", action: "about"
 
   resources :stations, only: [:index, :show]
+  resources :statuses, only: [:create]
 
   root 'home#index'
 end
