@@ -15,4 +15,5 @@ class StatusesController < ApplicationController
     def status_params
       params.require(:status).permit(:station_id, :latitude, :longitude, :ph, :orp, :od, :temperature, :co2, :conductivity)
     end
+    
 end
