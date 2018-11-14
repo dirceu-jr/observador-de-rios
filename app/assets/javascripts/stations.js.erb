@@ -408,7 +408,6 @@ $(document).on('turbolinks:load', function () {
                             current_status_ids.push(statuses[status].id);
                         }
                     }
-
                     
                     var photos_html = [];
                     for (photo in data.photos) {
@@ -420,7 +419,7 @@ $(document).on('turbolinks:load', function () {
                                     '</div>',
                                     '<div class="card-footer">',
                                         '<div class="stats">',
-                                            '<i class="material-icons">access_time</i> ' + data.photos[photo].created_at,
+                                            '<i class="material-icons">access_time</i> ' + data.photos[photo].time_ago,
                                         '</div>',
                                     '</div>',
                                 '</div>',
