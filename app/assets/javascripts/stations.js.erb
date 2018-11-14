@@ -421,7 +421,7 @@ $(document).on('turbolinks:load', function () {
                     statuses = data.statuses;
 
                     // updates dashboard
-                    $("#station-navigated").text(data.navigated);
+                    $("#station-navigated").html(data.navigated + " <small>KM</small>");
                     $("#colected_count").text(data.status_count);
                     $("#photos_count").text(data.photos_count);
 
