@@ -22,6 +22,8 @@
 //= require plugins/chartist.min.js
 //= require plugins/perfect-scrollbar.jquery.min.js
 
+//= require chartist-plugin-tooltip.min.js
+
 //= require leaflet.js
 //= require leaflet-dvf.js
 //= require moment.min.js

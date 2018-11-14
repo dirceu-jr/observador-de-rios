@@ -72,7 +72,12 @@ var stations = {
                     right: 0,
                     bottom: 0,
                     left: 0
-                }
+                },
+                plugins: [
+                    Chartist.plugins.tooltip({
+                        appendToBody: true
+                    })
+                ]
             }
 
             var pHChart = new Chartist.Line('#pHChart', datapHChart, optionspHChart);
@@ -109,7 +114,12 @@ var stations = {
                     right: 0,
                     bottom: 0,
                     left: 0
-                }
+                },
+                plugins: [
+                    Chartist.plugins.tooltip({
+                        appendToBody: true
+                    })
+                ]
             }
 
             var ORPChart = new Chartist.Line('#ORPChart', dataORPChart, optionsORPChart);
@@ -144,7 +154,12 @@ var stations = {
                     right: 0,
                     bottom: 0,
                     left: 0
-                }
+                },
+                plugins: [
+                    Chartist.plugins.tooltip({
+                        appendToBody: true
+                    })
+                ]
             };
             var DOChart = new Chartist.Line('#DOChart', dataDOChart, optionsDOChart);
 
@@ -176,7 +191,12 @@ var stations = {
                     right: 0,
                     bottom: 0,
                     left: 0
-                }
+                },
+                plugins: [
+                    Chartist.plugins.tooltip({
+                        appendToBody: true
+                    })
+                ]
             };
             var conductivityChart = new Chartist.Line('#conductivityChart', dataconductivityChart, optionsconductivityChart);
 
@@ -208,7 +228,12 @@ var stations = {
                     right: 0,
                     bottom: 0,
                     left: 0
-                }
+                },
+                plugins: [
+                    Chartist.plugins.tooltip({
+                        appendToBody: true
+                    })
+                ]
             };
             var temperatureChart = new Chartist.Line('#temperatureChart', dataTemperatureChart, optionsTemperatureChart);
 
@@ -240,7 +265,12 @@ var stations = {
                     right: 0,
                     bottom: 0,
                     left: 0
-                }
+                },
+                plugins: [
+                    Chartist.plugins.tooltip({
+                        appendToBody: true
+                    })
+                ]
             };
             var Co2Chart = new Chartist.Line('#co2Chart', dataCo2Chart, optionsCo2Chart);
 
