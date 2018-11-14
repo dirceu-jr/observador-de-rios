@@ -18,8 +18,7 @@
 var
     seq = 0,
     delays = 80,
-    durations = 500
-;
+    durations = 500;
 
 // activate collapse right menu when the windows is resized
 $(window).resize(function () {
@@ -48,8 +47,7 @@ var stations = {
 
             var
                 ph_labels = [],
-                ph_series = []
-            ;
+                ph_series = [];
 
             for (status in statuses) {
                 ph_labels.push(past_time_labels[status]);
@@ -86,8 +84,7 @@ var stations = {
 
             var
                 orp_labels = [],
-                orp_series = []
-            ;
+                orp_series = [];
 
             for (status in statuses) {
                 orp_labels.push(past_time_labels[status]);
@@ -125,8 +122,7 @@ var stations = {
 
             var
                 do_labels = [],
-                do_series = []
-            ;
+                do_series = [];
 
             for (status in statuses) {
                 do_labels.push(past_time_labels[status]);
@@ -159,8 +155,7 @@ var stations = {
 
             var
                 conductivity_labels = [],
-                conductivity_series = []
-            ;
+                conductivity_series = [];
 
             for (status in statuses) {
                 conductivity_labels.push(past_time_labels[status]);
@@ -192,8 +187,7 @@ var stations = {
 
             var
                 temperature_labels = [],
-                temperature_series = []
-            ;
+                temperature_series = [];
 
             for (status in statuses) {
                 temperature_labels.push(past_time_labels[status]);
@@ -225,8 +219,7 @@ var stations = {
 
             var
                 co2_labels = [],
-                co2_series = []
-            ;
+                co2_series = [];
 
             for (status in statuses) {
                 co2_labels.push(past_time_labels[status]);
@@ -286,142 +279,140 @@ var stations = {
 
         seq = 0;
     },
-    
-    openModal: function(el) {
+
+    openModal: function (el) {
         var full_size = $(el).data('full_size');
         $('#modal-body').html('<img width="766" src="' + full_size + '" />');
         $('#modal').modal({});
     }
 }
 
-$(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function () {
     stations.initDashboardPageCharts();
-  
+
     if ($('#single_station_map').length != 0) {
-  
-      var
-          map,
-          legendControl
-      ;
-  
-      // Initialize the map
-      if (statuses[0]) {
-          map = L.map('single_station_map').setView([statuses[0].latitude, statuses[0].longitude], 15);
-      } else {
-          map = L.map('single_station_map').setView([-25.379659, -49.194844], 15);
-      }
-  
-      var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          detectRetina: true
-      });
-  
-      baseLayer.addTo(map);
-  
-      // Initialize the legend control and add it to the map
-      var legendControl = new L.Control.Legend();
-  
-      legendControl.addTo(map);
-  
-      // custom icon prototype
-      var station_icon = L.icon({
-          iconUrl: "<%= asset_path("paper-boat.png") %>",
-          iconSize: [36, 36]
-      });
-  
-      if (statuses[0]) {
-          var cwb_station = L.marker([statuses[0].latitude, statuses[0].longitude], { icon: station_icon }).addTo(map);
-      }
-  
-      var
-          track = [],
-          current_status_ids = []
-      ;
-      for (var i = statuses.length; i--;) {
-          track.push({
-              "lat": statuses[i].latitude,
-              "lon": statuses[i].longitude,
-              "ele": statuses[i].ph
-          });
-          current_status_ids.push(statuses[i].id);
-      }
-  
-      var data2 = {
-          "gpx": {
-              "wpt": track
-          }
-      }
-  
-      var dataLayer2 = new L.FlowLine(data2, {
-          recordsField: 'gpx.wpt',
-          locationMode: L.LocationModes.LATLNG,
-          latitudeField: 'lat',
-          longitudeField: 'lon',
-          legendOptions: {
-              className: 'legend-line',
-              numSegments: 20
-          },
-          tooltipOptions: {
-              className: 'line-legend leaflet-div-icon',
-              iconSize: null
-          },
-          displayOptions: {
-              ele: {
-                  displayName: 'Qualidade da água',
-                  weight: 8,
-                  color: new L.HSLHueFunction([0, 120], [16, -30])
-              }
-          },
-          layerOptions: {
-              opacity: 1.0
-          }
-      });
-      map.addLayer(dataLayer2);
-  
-      var
-          original_title = $(".navbar-brand").html().split("-")[0],
-          time_to_refresh = 30,
-          time_to_refresh_counter = time_to_refresh
-      ;
-  
-      // auto refresh
-      setInterval(function() {
-          $(".navbar-brand").html(original_title + " &mdash; Atualizando em " + (time_to_refresh_counter) + " segundos <img src='<%= asset_path "ajax-loader.gif" %>' />");
-  
-          time_to_refresh_counter--;
-  
-          if (time_to_refresh_counter <= 0) {
-              time_to_refresh_counter = time_to_refresh;
-  
-              $.ajax({
-                  url: "/stations/" + params_id + ".json"
-              }).done(function(data) {
-                  statuses = data.statuses;
-  
-                  $("#station-navigated").text(data.navigated);
-                  $("#colected_count").text(data.status_count);
-                  $("#photos_count").text(data.photos_count);
-  
-                  stations.initDashboardPageCharts();
-                  
-                  // only when new statuses
-                  for (status in statuses) {
-                      if (current_status_ids.indexOf(statuses[status].id) == -1) {
-                          cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
-                          dataLayer2.addRecord({
-                              "lat": statuses[status].latitude,
-                              "lon": statuses[status].longitude,
-                              "ele": statuses[status].do
-                          });
-                          current_status_ids.push(statuses[status].id);
-                      }
-                  }
-                  
-              });
-  
-          }
-  
-      }, 1000);
-  
+
+        var
+            map,
+            legendControl;
+
+        // Initialize the map
+        if (statuses[0]) {
+            map = L.map('single_station_map').setView([statuses[0].latitude, statuses[0].longitude], 15);
+        } else {
+            map = L.map('single_station_map').setView([-25.379659, -49.194844], 15);
+        }
+
+        var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            detectRetina: true
+        });
+
+        baseLayer.addTo(map);
+
+        // Initialize the legend control and add it to the map
+        var legendControl = new L.Control.Legend();
+
+        legendControl.addTo(map);
+
+        // custom icon prototype
+        var station_icon = L.icon({
+            iconUrl: "<%= asset_path("paper-boat.png") %>",
+            iconSize: [36, 36]
+        });
+
+        if (statuses[0]) {
+            var cwb_station = L.marker([statuses[0].latitude, statuses[0].longitude], {
+                icon: station_icon
+            }).addTo(map);
+        }
+
+        var
+            track = [],
+            current_status_ids = [];
+        for (var i = statuses.length; i--;) {
+            track.push({
+                "lat": statuses[i].latitude,
+                "lon": statuses[i].longitude,
+                "ele": statuses[i].ph
+            });
+            current_status_ids.push(statuses[i].id);
+        }
+
+        var data2 = {
+            "gpx": {
+                "wpt": track
+            }
+        }
+
+        var dataLayer2 = new L.FlowLine(data2, {
+            recordsField: 'gpx.wpt',
+            locationMode: L.LocationModes.LATLNG,
+            latitudeField: 'lat',
+            longitudeField: 'lon',
+            legendOptions: {
+                className: 'legend-line',
+                numSegments: 20
+            },
+            tooltipOptions: {
+                className: 'line-legend leaflet-div-icon',
+                iconSize: null
+            },
+            displayOptions: {
+                ele: {
+                    displayName: 'Qualidade da água',
+                    weight: 8,
+                    color: new L.HSLHueFunction([0, 120], [16, -30])
+                }
+            },
+            layerOptions: {
+                opacity: 1.0
+            }
+        });
+        map.addLayer(dataLayer2);
+
+        var
+            original_title = $(".navbar-brand").html().split("-")[0],
+            time_to_refresh = 30,
+            time_to_refresh_counter = time_to_refresh;
+
+        // auto refresh
+        setInterval(function () {
+            $(".navbar-brand").html(original_title + " &mdash; Atualizando em " + (time_to_refresh_counter) + " segundos <img src='<%= asset_path "ajax-loader.gif" %>' />");
+
+            time_to_refresh_counter--;
+
+            if (time_to_refresh_counter <= 0) {
+                time_to_refresh_counter = time_to_refresh;
+
+                $.ajax({
+                    url: "/stations/" + params_id + ".json"
+                }).done(function (data) {
+                    statuses = data.statuses;
+
+                    $("#station-navigated").text(data.navigated);
+                    $("#colected_count").text(data.status_count);
+                    $("#photos_count").text(data.photos_count);
+
+                    stations.initDashboardPageCharts();
+
+                    // only when new statuses
+                    for (status in statuses) {
+                        if (current_status_ids.indexOf(statuses[status].id) == -1) {
+                            cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
+                            dataLayer2.addRecord({
+                                "lat": statuses[status].latitude,
+                                "lon": statuses[status].longitude,
+                                "ele": statuses[status].do
+                            });
+                            current_status_ids.push(statuses[status].id);
+                        }
+                    }
+
+                });
+
+            }
+
+        }, 1000);
+
     }
-  });
-  
+});
