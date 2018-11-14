@@ -409,6 +409,26 @@ $(document).on('turbolinks:load', function () {
                         }
                     }
 
+                    
+                    var photos_html = [];
+                    for (photo in data.photos) {
+                        photos_html.push(
+                            '<div class="col-md-3">',
+                                '<div class="card card-chart">',
+                                    '<div class="card-header card-header-info">',
+                                        '<img src="' + data.photos[photo].file.thumb.url + '" data-full_size="' + data.photos[photo].file.url + '" width="100%" onclick="stations.openModal(this);"></img>',
+                                    '</div>',
+                                    '<div class="card-footer">',
+                                        '<div class="stats">',
+                                            '<i class="material-icons">access_time</i> ' + data.photos[photo].created_at,
+                                        '</div>',
+                                    '</div>',
+                                '</div>',
+                            '</div>'
+                        )
+                    }
+                    $(".photos").html(photos_html.join(""));                    
+
                 });
 
             }
