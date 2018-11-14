@@ -304,7 +304,8 @@ $(document).on('turbolinks:load', function () {
         }
 
         var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            detectRetina: true
+            detectRetina: true,
+            attribution: "<a target='_blank' href='https://www.openstreetmap.org/'>OpenStreetMap</a>"
         });
 
         baseLayer.addTo(map);
