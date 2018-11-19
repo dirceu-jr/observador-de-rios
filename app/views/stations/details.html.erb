@@ -43,6 +43,7 @@ var
     params_id = <%= params[:id] %>
 ;
 $(document).on('turbolinks:load', function () {
+    clearInterval(refresh_stations_interval);
     clearInterval(refresh_details_interval);
     details.renderChart("#Chart", "<%= params[:sensor] %>");
     details.renderDetailsMap("<%= params[:sensor] %>");

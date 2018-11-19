@@ -225,6 +225,7 @@ var
 ;
 $(document).on('turbolinks:load', function () {
     clearInterval(refresh_stations_interval);
+    clearInterval(refresh_details_interval);
     stations.initDashboardPageCharts();
     stations.renderSingleStationMap();
     stations.startDashboardRefreshInterval();
