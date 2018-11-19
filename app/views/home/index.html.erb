@@ -29,12 +29,9 @@ $(document).on('turbolinks:load', function() {
         // Initialize the map
         map = L.map('map').setView([-22.991439, -49.907298], 7);
 
-        // var baseLayer = new L.StamenTileLayer('toner', {
-        //     detectRetina: true
-        // }).addTo(map);
-
         var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            detectRetina: true
+            detectRetina: true,
+            attribution: "<a target='_blank' href='https://www.openstreetmap.org/'>OpenStreetMap</a>"
         });
 
         baseLayer.addTo(map);
@@ -43,12 +40,6 @@ $(document).on('turbolinks:load', function() {
         var legendControl = new L.Control.Legend();
 
         legendControl.addTo(map);
-
-        // var layerControl = new L.Control.Layers({
-        //     'Stamen Toner': baseLayer
-        // });
-
-        // layerControl.addTo(map);
 
         var data = {
             "gpx": {

@@ -18,7 +18,8 @@
 var
     seq = 0,
     delays = 80,
-    durations = 500;
+    durations = 500,
+    refresh_stations_interval;
 
 // activate collapse right menu when the windows is resized
 $(window).resize(function () {
@@ -29,253 +30,251 @@ $(window).resize(function () {
 
 var stations = {
 
+    renderChart: function(holder, data_name) {
+
+        var
+            labels = [],
+            series = [],
+            past_time_labels = ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m']
+        ;
+
+        for (status in statuses) {
+            labels.push(past_time_labels[status]);
+            series.push(statuses[status][data_name]);
+        }
+
+        var dataChart = {
+            labels: labels,
+            series: [
+                series
+            ]
+        }
+
+        var optionsChart = {
+            //   lineSmooth: Chartist.Interpolation.cardinal({
+            //     tension: 0
+            //   }),
+            low: 0,
+            high: 20, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+            chartPadding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
+            },
+            plugins: [
+                Chartist.plugins.tooltip({
+                    appendToBody: true
+                })
+            ]
+        }
+
+        var Chart = new Chartist.Line(holder, dataChart, optionsChart);
+
+        stations.startAnimationForLineChart(Chart);
+    },
+
+    renderSingleStationMap: function() {
+        if ($('#single_station_map').length != 0) {
+
+            var
+                map,
+                legendControl;
+    
+            // Initialize the map
+            if (statuses[0]) {
+                map = L.map('single_station_map').setView([statuses[0].latitude, statuses[0].longitude], 15);
+            } else {
+                map = L.map('single_station_map').setView([-25.379659, -49.194844], 15);
+            }
+    
+            var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                detectRetina: true,
+                attribution: "<a target='_blank' href='https://www.openstreetmap.org/'>OpenStreetMap</a>"
+            });
+    
+            baseLayer.addTo(map);
+    
+            // Initialize the legend control and add it to the map
+            var legendControl = new L.Control.Legend();
+    
+            legendControl.addTo(map);
+    
+            // custom icon prototype
+            var station_icon = L.icon({
+                iconUrl: "<%= asset_path("paper-boat.png") %>",
+                iconSize: [36, 36]
+            });
+    
+            if (statuses[0]) {
+                var cwb_station = L.marker([statuses[0].latitude, statuses[0].longitude], {
+                    icon: station_icon
+                }).addTo(map);
+            }
+    
+            var
+                track = [],
+                current_status_ids = [];
+            for (var i = statuses.length; i--;) {
+                track.push({
+                    "lat": statuses[i].latitude,
+                    "lon": statuses[i].longitude,
+                    "ele": statuses[i].ph
+                });
+                current_status_ids.push(statuses[i].id);
+            }
+    
+            var data2 = {
+                "gpx": {
+                    "wpt": track
+                }
+            }
+    
+            var dataLayer2 = new L.FlowLine(data2, {
+                recordsField: 'gpx.wpt',
+                locationMode: L.LocationModes.LATLNG,
+                latitudeField: 'lat',
+                longitudeField: 'lon',
+                legendOptions: {
+                    className: 'legend-line',
+                    numSegments: 20
+                },
+                tooltipOptions: {
+                    className: 'line-legend leaflet-div-icon',
+                    iconSize: null
+                },
+                displayOptions: {
+                    ele: {
+                        displayName: 'Qualidade da água',
+                        weight: 8,
+                        color: new L.HSLHueFunction([0, 120], [16, -30])
+                    }
+                },
+                layerOptions: {
+                    opacity: 1.0
+                }
+            });
+            map.addLayer(dataLayer2);
+        }
+    },
+
+    startDashboardRefreshInterval: function() {
+
+        var
+            original_title = $(".navbar-brand").html().split("-")[0],
+            time_to_refresh = 30,
+            time_to_refresh_counter = time_to_refresh;
+
+        // auto refresh
+        refresh_stations_interval = setInterval(function () {
+            
+            $(".navbar-brand").html(original_title + " &mdash; Atualizando em " + (time_to_refresh_counter) + " segundos <img src='<%= asset_path "ajax-loader.gif" %>' />");
+
+            time_to_refresh_counter--;
+
+            if (time_to_refresh_counter <= 0) {
+                time_to_refresh_counter = time_to_refresh;
+
+                $.ajax({
+                    url: "/stations/" + params_id + ".json"
+                }).done(function (data) {
+                    statuses = data.statuses;
+
+                    // updates dashboard
+                    $("#station-navigated").html(data.navigated + " <small>KM</small>");
+                    $("#colected_count").text(data.status_count);
+                    $("#photos_count").text(data.photos_count);
+
+                    // updates charts
+                    stations.initDashboardPageCharts();
+
+                    // updates time_ago in charts
+                    var access_time = '<i class="material-icons">access_time</i> ';
+
+                    $('.stats.pHChart').html(access_time + statuses[0].time_ago);
+                    $('.stats.ORPChart').html(access_time + statuses[0].time_ago);
+                    $('.stats.DOChart').html(access_time + statuses[0].time_ago);
+                    $('.stats.conductivityChart').html(access_time + statuses[0].time_ago);
+                    $('.stats.temperatureChart').html(access_time + statuses[0].time_ago);
+                    $('.stats.co2Chart').html(access_time + statuses[0].time_ago);
+
+                    // add top map only when new statuses
+                    for (status in statuses) {
+                        if (current_status_ids.indexOf(statuses[status].id) == -1) {
+                            cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
+                            dataLayer2.addRecord({
+                                "lat": statuses[status].latitude,
+                                "lon": statuses[status].longitude,
+                                "ele": statuses[status].do
+                            });
+                            current_status_ids.push(statuses[status].id);
+                        }
+                    }
+                    
+                    var photos_html = [];
+                    for (photo in data.photos) {
+                        photos_html.push(
+                            '<div class="col-md-3">',
+                                '<div class="card card-chart">',
+                                    '<div class="card-header card-header-info">',
+                                        '<img src="' + data.photos[photo].file.thumb.url + '" data-full_size="' + data.photos[photo].file.url + '" width="100%" onclick="stations.openModal(this);"></img>',
+                                    '</div>',
+                                    '<div class="card-footer">',
+                                        '<div class="stats">',
+                                            '<i class="material-icons">access_time</i> ' + data.photos[photo].time_ago,
+                                        '</div>',
+                                    '</div>',
+                                '</div>',
+                            '</div>'
+                        )
+                    }
+                    $(".photos").html(photos_html.join(""));                    
+
+                });
+
+            }
+
+        }, 1000);
+
+    },
+
     initDashboardPageCharts: function () {
 
+        // only do that in dashboard (station) page
         if (
-            ($('#pHChart').length != 0 ||
-                $('#ORPChart').length != 0 ||
-                $('#DOChart').length != 0 ||
-                $('#conductivityChart').length != 0 ||
-                $('#temperatureChart').length != 0 ||
+            ($('#pHChart').length != 0 &&
+                $('#ORPChart').length != 0 &&
+                $('#DOChart').length != 0 &&
+                $('#conductivityChart').length != 0 &&
+                $('#temperatureChart').length != 0 &&
                 $('#co2Chart').length != 0) && statuses
         ) {
 
             var past_time_labels = ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'];
 
-
             /* ----------==========     pH     ==========---------- */
+            this.renderChart('#pHChart', "ph");
 
-            var
-                ph_labels = [],
-                ph_series = [];
+            /* ----------==========     ORP     ==========---------- */
+            this.renderChart('#ORPChart', "orp");
 
-            for (status in statuses) {
-                ph_labels.push(past_time_labels[status]);
-                ph_series.push(statuses[status].ph);
-            }
+            /* ----------==========     Dissolved Oxygen     ==========---------- */
+            this.renderChart('#DOChart', "od");
 
-            var datapHChart = {
-                labels: ph_labels,
-                series: [
-                    ph_series
-                ]
-            };
+            /* ----------==========     Conductivity Oxygen     ==========---------- */
+            this.renderChart('#conductivityChart', "conductivity");
 
-            var optionspHChart = {
-                //   lineSmooth: Chartist.Interpolation.cardinal({
-                //     tension: 0
-                //   }),
-                low: 0,
-                high: 14, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                },
-                plugins: [
-                    Chartist.plugins.tooltip({
-                        appendToBody: true
-                    })
-                ]
-            }
+            /* ----------==========     Temperature     ==========---------- */
+            this.renderChart('#temperatureChart', "temperature");
 
-            var pHChart = new Chartist.Line('#pHChart', datapHChart, optionspHChart);
+            /* ----------==========     CO2     ==========---------- */
+            this.renderChart('#co2Chart', "co2");
 
-            stations.startAnimationForLineChart(pHChart);
-
-
-            /* ----------==========     ORP    ==========---------- */
-
-            var
-                orp_labels = [],
-                orp_series = [];
-
-            for (status in statuses) {
-                orp_labels.push(past_time_labels[status]);
-                orp_series.push(statuses[status].orp);
-            }
-
-            var dataORPChart = {
-                labels: orp_labels,
-                series: [
-                    orp_series
-                ]
-            };
-
-            var optionsORPChart = {
-                //   lineSmooth: Chartist.Interpolation.cardinal({
-                //     tension: 0
-                //   }),
-                low: 0,
-                high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                },
-                plugins: [
-                    Chartist.plugins.tooltip({
-                        appendToBody: true
-                    })
-                ]
-            }
-
-            var ORPChart = new Chartist.Line('#ORPChart', dataORPChart, optionsORPChart);
-
-            // start animation for the Completed Tasks Chart - Line Chart
-            stations.startAnimationForLineChart(ORPChart);
-
-
-            /* ----------==========    Dissolved Oxygen    ==========---------- */
-
-            var
-                do_labels = [],
-                do_series = [];
-
-            for (status in statuses) {
-                do_labels.push(past_time_labels[status]);
-                do_series.push(statuses[status].od);
-            }
-
-            var dataDOChart = {
-                labels: do_labels,
-                series: [
-                    do_series
-                ]
-            }
-
-            var optionsDOChart = {
-                low: 0,
-                high: 50,
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                },
-                plugins: [
-                    Chartist.plugins.tooltip({
-                        appendToBody: true
-                    })
-                ]
-            };
-            var DOChart = new Chartist.Line('#DOChart', dataDOChart, optionsDOChart);
-
-            //start animation for the Emails Subscription Chart
-            stations.startAnimationForLineChart(DOChart);
-
-            /* ----------==========    Dissolved Oxygen    ==========---------- */
-
-            var
-                conductivity_labels = [],
-                conductivity_series = [];
-
-            for (status in statuses) {
-                conductivity_labels.push(past_time_labels[status]);
-                conductivity_series.push(statuses[status].conductivity);
-            }
-
-            var dataconductivityChart = {
-                labels: conductivity_labels,
-                series: [
-                    conductivity_series
-                ]
-            };
-            var optionsconductivityChart = {
-                low: 0,
-                high: 50,
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                },
-                plugins: [
-                    Chartist.plugins.tooltip({
-                        appendToBody: true
-                    })
-                ]
-            };
-            var conductivityChart = new Chartist.Line('#conductivityChart', dataconductivityChart, optionsconductivityChart);
-
-            //start animation for the Emails Subscription Chart
-            stations.startAnimationForLineChart(conductivityChart);
-
-            /* ----------==========    Temperature    ==========---------- */
-
-            var
-                temperature_labels = [],
-                temperature_series = [];
-
-            for (status in statuses) {
-                temperature_labels.push(past_time_labels[status]);
-                temperature_series.push(statuses[status].temperature);
-            }
-
-            var dataTemperatureChart = {
-                labels: temperature_labels,
-                series: [
-                    temperature_series
-                ]
-            };
-            var optionsTemperatureChart = {
-                low: 0,
-                high: 50,
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                },
-                plugins: [
-                    Chartist.plugins.tooltip({
-                        appendToBody: true
-                    })
-                ]
-            };
-            var temperatureChart = new Chartist.Line('#temperatureChart', dataTemperatureChart, optionsTemperatureChart);
-
-            //start animation for the Emails Subscription Chart
-            stations.startAnimationForLineChart(temperatureChart);
-
-            /* ----------==========    CO2    ==========---------- */
-
-            var
-                co2_labels = [],
-                co2_series = [];
-
-            for (status in statuses) {
-                co2_labels.push(past_time_labels[status]);
-                co2_series.push(statuses[status].co2);
-            }
-
-            var dataCo2Chart = {
-                labels: co2_labels,
-                series: [
-                    co2_series
-                ]
-            };
-            var optionsCo2Chart = {
-                low: 0,
-                high: 50,
-                chartPadding: {
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0
-                },
-                plugins: [
-                    Chartist.plugins.tooltip({
-                        appendToBody: true
-                    })
-                ]
-            };
-            var Co2Chart = new Chartist.Line('#co2Chart', dataCo2Chart, optionsCo2Chart);
-
-            //start animation for the Emails Subscription Chart
-            stations.startAnimationForLineChart(Co2Chart);
+            /* ----------==========     Map     ==========---------- */
+            this.renderSingleStationMap();
+        
+            //
+            this.startDashboardRefreshInterval();
 
         }
     },
@@ -316,163 +315,3 @@ var stations = {
         $('#modal').modal({});
     }
 }
-
-$(document).on('turbolinks:load', function () {
-    stations.initDashboardPageCharts();
-
-    if ($('#single_station_map').length != 0) {
-
-        var
-            map,
-            legendControl;
-
-        // Initialize the map
-        if (statuses[0]) {
-            map = L.map('single_station_map').setView([statuses[0].latitude, statuses[0].longitude], 15);
-        } else {
-            map = L.map('single_station_map').setView([-25.379659, -49.194844], 15);
-        }
-
-        var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            detectRetina: true,
-            attribution: "<a target='_blank' href='https://www.openstreetmap.org/'>OpenStreetMap</a>"
-        });
-
-        baseLayer.addTo(map);
-
-        // Initialize the legend control and add it to the map
-        var legendControl = new L.Control.Legend();
-
-        legendControl.addTo(map);
-
-        // custom icon prototype
-        var station_icon = L.icon({
-            iconUrl: "<%= asset_path("paper-boat.png") %>",
-            iconSize: [36, 36]
-        });
-
-        if (statuses[0]) {
-            var cwb_station = L.marker([statuses[0].latitude, statuses[0].longitude], {
-                icon: station_icon
-            }).addTo(map);
-        }
-
-        var
-            track = [],
-            current_status_ids = [];
-        for (var i = statuses.length; i--;) {
-            track.push({
-                "lat": statuses[i].latitude,
-                "lon": statuses[i].longitude,
-                "ele": statuses[i].ph
-            });
-            current_status_ids.push(statuses[i].id);
-        }
-
-        var data2 = {
-            "gpx": {
-                "wpt": track
-            }
-        }
-
-        var dataLayer2 = new L.FlowLine(data2, {
-            recordsField: 'gpx.wpt',
-            locationMode: L.LocationModes.LATLNG,
-            latitudeField: 'lat',
-            longitudeField: 'lon',
-            legendOptions: {
-                className: 'legend-line',
-                numSegments: 20
-            },
-            tooltipOptions: {
-                className: 'line-legend leaflet-div-icon',
-                iconSize: null
-            },
-            displayOptions: {
-                ele: {
-                    displayName: 'Qualidade da água',
-                    weight: 8,
-                    color: new L.HSLHueFunction([0, 120], [16, -30])
-                }
-            },
-            layerOptions: {
-                opacity: 1.0
-            }
-        });
-        map.addLayer(dataLayer2);
-
-        var
-            original_title = $(".navbar-brand").html().split("-")[0],
-            time_to_refresh = 30,
-            time_to_refresh_counter = time_to_refresh;
-
-        // auto refresh
-        setInterval(function () {
-            $(".navbar-brand").html(original_title + " &mdash; Atualizando em " + (time_to_refresh_counter) + " segundos <img src='<%= asset_path "ajax-loader.gif" %>' />");
-
-            time_to_refresh_counter--;
-
-            if (time_to_refresh_counter <= 0) {
-                time_to_refresh_counter = time_to_refresh;
-
-                $.ajax({
-                    url: "/stations/" + params_id + ".json"
-                }).done(function (data) {
-                    statuses = data.statuses;
-
-                    // updates dashboard
-                    $("#station-navigated").html(data.navigated + " <small>KM</small>");
-                    $("#colected_count").text(data.status_count);
-                    $("#photos_count").text(data.photos_count);
-
-                    // updates charts
-                    stations.initDashboardPageCharts();
-
-                    // updates time_ago in charts
-                    $('.stats.pHChart').html(statuses[0].time_ago);
-                    $('.stats.ORPChart').html(statuses[0].time_ago);
-                    $('.stats.DOChart').html(statuses[0].time_ago);
-                    $('.stats.conductivityChart').html(statuses[0].time_ago);
-                    $('.stats.temperatureChart').html(statuses[0].time_ago);
-                    $('.stats.co2Chart').html(statuses[0].time_ago);
-
-                    // add top map only when new statuses
-                    for (status in statuses) {
-                        if (current_status_ids.indexOf(statuses[status].id) == -1) {
-                            cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
-                            dataLayer2.addRecord({
-                                "lat": statuses[status].latitude,
-                                "lon": statuses[status].longitude,
-                                "ele": statuses[status].do
-                            });
-                            current_status_ids.push(statuses[status].id);
-                        }
-                    }
-                    
-                    var photos_html = [];
-                    for (photo in data.photos) {
-                        photos_html.push(
-                            '<div class="col-md-3">',
-                                '<div class="card card-chart">',
-                                    '<div class="card-header card-header-info">',
-                                        '<img src="' + data.photos[photo].file.thumb.url + '" data-full_size="' + data.photos[photo].file.url + '" width="100%" onclick="stations.openModal(this);"></img>',
-                                    '</div>',
-                                    '<div class="card-footer">',
-                                        '<div class="stats">',
-                                            '<i class="material-icons">access_time</i> ' + data.photos[photo].time_ago,
-                                        '</div>',
-                                    '</div>',
-                                '</div>',
-                            '</div>'
-                        )
-                    }
-                    $(".photos").html(photos_html.join(""));                    
-
-                });
-
-            }
-
-        }, 1000);
-
-    }
-});

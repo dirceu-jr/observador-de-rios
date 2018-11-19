@@ -63,7 +63,8 @@
 
         </div>
         
-        <% if @statuses.last %>
+        <% if @statuses.first %>
+        <h4>Últimas 7 leituras</h4>
         <div class="row">
             <div class="col-md-4">
                 <div class="card card-chart">
@@ -71,12 +72,13 @@
                         <div class="ct-chart" id="pHChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">pH</h4>
+                        <h4 class="card-title"><a href="/stations/<%= @station.id %>/ph">pH</a></h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats pHChart">
                             <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.first.created_at) %>
                         </div>
+                        <a href="/stations/<%= @station.id %>/ph">Ver mais</a>
                     </div>
                 </div>
             </div>
@@ -86,12 +88,13 @@
                         <div class="ct-chart" id="ORPChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">ORP</h4>
+                        <h4 class="card-title"><a href="/stations/<%= @station.id %>/orp">ORP</a></h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats ORPChart">
                             <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.first.created_at) %>
                         </div>
+                        <a href="/stations/<%= @station.id %>/orp">Ver mais</a>
                     </div>
                 </div>
             </div>
@@ -101,12 +104,13 @@
                         <div class="ct-chart" id="DOChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Oxigênio Dissolvido</h4>
+                        <h4 class="card-title"><a href="/stations/<%= @station.id %>/od">Oxigênio Dissolvido</a></h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats DOChart">
                             <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.first.created_at) %>
                         </div>
+                        <a href="/stations/<%= @station.id %>/od">Ver mais</a>
                     </div>
                 </div>
             </div>
@@ -119,12 +123,13 @@
                         <div class="ct-chart" id="conductivityChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Condutividade</h4>
+                        <h4 class="card-title"><a href="/stations/<%= @station.id %>/conductivity">Condutividade</a></h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats conductivityChart">
                             <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.first.created_at) %>
                         </div>
+                        <a href="/stations/<%= @station.id %>/conductivity">Ver mais</a>
                     </div>
                 </div>
             </div>
@@ -134,12 +139,13 @@
                         <div class="ct-chart" id="temperatureChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Temperatura</h4>
+                        <h4 class="card-title"><a href="/stations/<%= @station.id %>/temperature">Temperatura</a></h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats temperatureChart">
                             <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.first.created_at) %>
                         </div>
+                        <a href="/stations/<%= @station.id %>/temperature">Ver mais</a>
                     </div>
                 </div>
             </div>
@@ -149,19 +155,20 @@
                         <div class="ct-chart" id="co2Chart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">CO2 na superficie</h4>
+                        <h4 class="card-title"><a href="/stations/<%= @station.id %>/co2">CO2 na superficie</a></h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats co2Chart">
                             <i class="material-icons">access_time</i> <%= time_ago_in_words(@statuses.first.created_at) %>
                         </div>
+                        <a href="/stations/<%= @station.id %>/co2">Ver mais</a>
                     </div>
                 </div>
             </div>
         </div>
         <% end %>
 
-        <h4>Mapa</h4>
+        <h4>Mapa &mdash; Índice de Qualidade da Água</h4>
         <div class="row">
             <div class="col-md-12">
                 <div class="card-body">
@@ -216,5 +223,8 @@ var
     statuses = <%= raw @statuses.to_json %>,
     params_id = <%= params[:id] %>
 ;
-
+$(document).on('turbolinks:load', function () {
+    clearInterval(refresh_stations_interval);
+    stations.initDashboardPageCharts();
+});
 </script>
