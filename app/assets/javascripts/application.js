@@ -29,6 +29,7 @@
 //= require moment.min.js
 
 //= require stations.js
+//= require details.js
 
 var
     breakCards = true,

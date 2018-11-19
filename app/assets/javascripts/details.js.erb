@@ -1,0 +1,186 @@
+var
+    refresh_details_interval,
+    last_chart_holder,
+    last_data_name
+;
+
+var details = {
+    current_status_ids: [],
+    cwb_station: null,
+    dataLayer2: null,
+
+    renderChart: function(holder, data_name) {
+
+        last_chart_holder = holder;
+        last_data_name = data_name;
+
+        var
+            labels = [],
+            series = [],
+            past_time_labels = ['1h10m', '1h5m', '1h', '55m', '50m', '45m', '40m', '-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m']
+        ;
+
+        for (status in statuses) {
+            labels.push(past_time_labels[status]);
+            series.push(statuses[status][data_name]);
+        }
+
+        var dataChart = {
+            labels: labels,
+            series: [
+                series
+            ]
+        }
+
+        var optionsChart = {
+            //   lineSmooth: Chartist.Interpolation.cardinal({
+            //     tension: 0
+            //   }),
+            low: 0,
+            high: 20,
+            chartPadding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
+            },
+            plugins: [
+                Chartist.plugins.tooltip({
+                    appendToBody: true
+                })
+            ]
+        }
+
+        var Chart = new Chartist.Line(holder, dataChart, optionsChart);
+
+        stations.startAnimationForLineChart(Chart);
+    },
+
+    renderDetailsMap: function(sensor) {
+
+        if ($('#details_map').length != 0) {
+            
+            var
+                map
+            ;
+
+            // Initialize the map
+            if (statuses[0]) {
+                map = L.map('details_map').setView([statuses[0].latitude, statuses[0].longitude], 15);
+            } else {
+                map = L.map('details_map').setView([-25.379659, -49.194844], 15);
+            }
+
+            var baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                detectRetina: true,
+                attribution: "<a target='_blank' href='https://www.openstreetmap.org/'>OpenStreetMap</a>"
+            });
+
+            baseLayer.addTo(map);
+
+            // custom icon prototype
+            var station_icon = L.icon({
+                iconUrl: "<%= asset_path("paper-boat.png") %>",
+                iconSize: [36, 36]
+            });
+
+            if (statuses[0]) {
+                this.cwb_station = L.marker([statuses[0].latitude, statuses[0].longitude], {
+                    icon: station_icon
+                }).addTo(map);
+            }
+
+            var
+                track = []
+            ;
+
+            for (var i = statuses.length; i--;) {
+                track.push({
+                    "lat": statuses[i].latitude,
+                    "lon": statuses[i].longitude,
+                    "ele": statuses[i][sensor]
+                });
+                this.current_status_ids.push(statuses[i].id);
+            }
+    
+            var data2 = {
+                "gpx": {
+                    "wpt": track
+                }
+            }
+    
+            this.dataLayer2 = new L.FlowLine(data2, {
+                recordsField: 'gpx.wpt',
+                locationMode: L.LocationModes.LATLNG,
+                latitudeField: 'lat',
+                longitudeField: 'lon',
+                legendOptions: {
+                    className: 'legend-line',
+                    numSegments: 20
+                },
+                tooltipOptions: {
+                    className: 'line-legend leaflet-div-icon',
+                    iconSize: null
+                },
+                displayOptions: {
+                    ele: {
+                        displayName: 'Qualidade da água',
+                        weight: 8,
+                        color: new L.HSLHueFunction([0, 120], [16, -30])
+                    }
+                },
+                layerOptions: {
+                    opacity: 1.0
+                }
+            });
+            map.addLayer(this.dataLayer2);
+        }
+    },
+
+    startDetailsRefreshInterval: function(sensor) {
+
+        var
+            navbar_string = $(".navbar-brand").html().split("-"),
+            original_title = navbar_string[0] + "&mdash;" + navbar_string[1],
+            time_to_refresh = 5,
+            time_to_refresh_counter = time_to_refresh;
+
+        // auto refresh
+        refresh_details_interval = setInterval(function () {
+        
+            $(".navbar-brand").html(original_title + " &mdash; Atualizando em " + (time_to_refresh_counter) + " segundos <img src='<%= asset_path "ajax-loader.gif" %>' />");
+
+            time_to_refresh_counter--;
+
+            if (time_to_refresh_counter <= 0) {
+                time_to_refresh_counter = time_to_refresh;
+
+                $.ajax({
+                    url: "/stations/" + params_id + ".json"
+                }).done(function (data) {
+                    statuses = data.statuses;
+
+                    // updates charts
+                    details.renderChart(last_chart_holder, last_data_name);
+
+                    // add top map only when new statuses
+                    for (status in statuses) {
+                        if (details.current_status_ids.indexOf(statuses[status].id) == -1) {
+                            details.cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
+                            details.dataLayer2.addRecord({
+                                "lat": statuses[status].latitude,
+                                "lon": statuses[status].longitude,
+                                "ele": statuses[status][sensor]
+                            });
+                            details.current_status_ids.push(statuses[status].id);
+                        }
+                    }
+                });
+
+            }
+
+        }, 1000);
+
+    }
+
+}

@@ -226,5 +226,7 @@ var
 $(document).on('turbolinks:load', function () {
     clearInterval(refresh_stations_interval);
     stations.initDashboardPageCharts();
+    stations.renderSingleStationMap();
+    stations.startDashboardRefreshInterval();
 });
 </script>

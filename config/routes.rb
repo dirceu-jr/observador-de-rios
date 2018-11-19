@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   get 'home/index'
   get '/sobre', controller: "home", action: "about"
 
-  resources :stations, only: [:index, :show]
+  # resources :stations, only: [:show]
+  get '/stations/:id', to: 'stations#show', as: "station"
+  get '/stations/:id/:sensor', to: 'stations#details'
+
   resources :statuses, only: [:create]
 
   root 'home#index'

@@ -9,3 +9,11 @@
 .modal-dialog {
     max-width: 800px;
 }
+
+.breadcrumb-item a {
+    color: #1e88e5;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,51 @@
+<% provide(:title, "Estação #{@station.name} - Sensor #{@sensor_name} - Atualizando em 30 segundos") %>
+
+<div class="content">
+    <div class="container-fluid">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= link_to "‹ Voltar", @station %></li>
+            </ol>
+        </nav>
+
+        <h4><%= @sensor_name %></h4>
+        
+        <div class="row">
+            
+            <div class="col-md-12">
+                <div class="card card-chart">
+                    <div class="card-header card-header-<%= @sensor_css_name %>">
+                        <div class="ct-chart" id="Chart"></div>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4>Mapa</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <div class="iframe-container d-none d-lg-block">
+                        <div id="details_map"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var
+    statuses = <%= raw @statuses.to_json %>,
+    params_id = <%= params[:id] %>
+;
+$(document).on('turbolinks:load', function () {
+    clearInterval(refresh_details_interval);
+    details.renderChart("#Chart", "<%= params[:sensor] %>");
+    details.renderDetailsMap("<%= params[:sensor] %>");
+    details.startDetailsRefreshInterval("<%= params[:sensor] %>");
+});
+</script>
