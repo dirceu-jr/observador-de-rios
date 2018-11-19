@@ -1,20 +1,3 @@
-/*!
-
- =========================================================
- * Material Dashboard - v2.1.0
- =========================================================
-
- * Product Page: https://www.creative-tim.com/product/material-dashboard
- * Copyright 2018 Creative Tim (http://www.creative-tim.com)
-
- * Designed by www.invisionapp.com Coded by www.creative-tim.com
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- */
-
 var
     seq = 0,
     delays = 80,
@@ -29,6 +12,10 @@ $(window).resize(function () {
 });
 
 var stations = {
+
+    current_status_ids: [],
+    cwb_station: null,
+    dataLayer2: null,
 
     renderChart: function(holder, data_name) {
 
@@ -107,21 +94,22 @@ var stations = {
             });
     
             if (statuses[0]) {
-                var cwb_station = L.marker([statuses[0].latitude, statuses[0].longitude], {
+                stations.cwb_station = L.marker([statuses[0].latitude, statuses[0].longitude], {
                     icon: station_icon
                 }).addTo(map);
             }
     
             var
-                track = [],
-                current_status_ids = [];
+                track = []
+            ;
+                
             for (var i = statuses.length; i--;) {
                 track.push({
                     "lat": statuses[i].latitude,
                     "lon": statuses[i].longitude,
                     "ele": statuses[i].ph
                 });
-                current_status_ids.push(statuses[i].id);
+                stations.current_status_ids.push(statuses[i].id);
             }
     
             var data2 = {
@@ -130,7 +118,7 @@ var stations = {
                 }
             }
     
-            var dataLayer2 = new L.FlowLine(data2, {
+            this.dataLayer2 = new L.FlowLine(data2, {
                 recordsField: 'gpx.wpt',
                 locationMode: L.LocationModes.LATLNG,
                 latitudeField: 'lat',
@@ -154,7 +142,7 @@ var stations = {
                     opacity: 1.0
                 }
             });
-            map.addLayer(dataLayer2);
+            map.addLayer(this.dataLayer2);
         }
     },
 
@@ -200,14 +188,14 @@ var stations = {
 
                     // add top map only when new statuses
                     for (status in statuses) {
-                        if (current_status_ids.indexOf(statuses[status].id) == -1) {
-                            cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
-                            dataLayer2.addRecord({
+                        if (stations.current_status_ids.indexOf(statuses[status].id) == -1) {
+                            stations.cwb_station.setLatLng([statuses[status].latitude, statuses[status].longitude]);
+                            stations.dataLayer2.addRecord({
                                 "lat": statuses[status].latitude,
                                 "lon": statuses[status].longitude,
                                 "ele": statuses[status].do
                             });
-                            current_status_ids.push(statuses[status].id);
+                            stations.current_status_ids.push(statuses[status].id);
                         }
                     }
                     
@@ -269,13 +257,6 @@ var stations = {
 
             /* ----------==========     CO2     ==========---------- */
             this.renderChart('#co2Chart', "co2");
-
-            /* ----------==========     Map     ==========---------- */
-            this.renderSingleStationMap();
-        
-            //
-            this.startDashboardRefreshInterval();
-
         }
     },
 
