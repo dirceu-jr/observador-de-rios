@@ -17,7 +17,7 @@ var details = {
         var
             labels = [],
             series = [],
-            past_time_labels = ['1h10m', '1h5m', '1h', '55m', '50m', '45m', '40m', '-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m']
+            past_time_labels = ['1h35m', '1h30m', '1h25m', '1h20m', '1h15m', '1h10m', '1h5m', '1h', '55m', '50m', '45m', '40m', '-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m']
         ;
 
         for (status in statuses) {
@@ -156,7 +156,7 @@ var details = {
                 time_to_refresh_counter = time_to_refresh;
 
                 $.ajax({
-                    url: "/stations/" + params_id + ".json"
+                    url: "/stations/" + params_id + ".json?view=details"
                 }).done(function (data) {
                     statuses = data.statuses;
 

@@ -19,8 +19,14 @@ class StationsController < ApplicationController
     }
 
     def show
+        if params[:view] == "details"
+            take = 20
+        else
+            take = 7
+        end
+
         @station = Station.find_by_id(params[:id])
-        @statuses = @station.statuses.order(id: :desc).take(7)
+        @statuses = @station.statuses.order(id: :desc).take(take)
         @photos = @station.photos.take(4)
     end
 
