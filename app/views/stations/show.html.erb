@@ -1,6 +1,6 @@
 <% provide(:title, "Estação #{@station.name} - Atualizando em 30 segundos") %>
 
-<div class="content">
+<div class="content" id="station">
     <div class="container-fluid">
 
         <div class="row">
@@ -223,10 +223,6 @@ var
     statuses = <%= raw @statuses.to_json %>,
     params_id = <%= params[:id] %>
 ;
-$(document).on('turbolinks:load', function () {
-    clearInterval(refresh_stations_interval);
-    stations.initDashboardPageCharts();
-    stations.renderSingleStationMap();
-    stations.startDashboardRefreshInterval();
-});
+clearInterval(refresh_stations_interval);
+clearInterval(refresh_details_interval);
 </script>

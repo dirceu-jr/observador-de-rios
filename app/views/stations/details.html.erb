@@ -1,6 +1,6 @@
 <% provide(:title, "Estação #{@station.name} - Sensor #{@sensor_name} - Atualizando em 30 segundos") %>
 
-<div class="content">
+<div class="content" id="detail" data-sensor="<%= params[:sensor] %>">
     <div class="container-fluid">
 
         <nav aria-label="breadcrumb">
@@ -42,10 +42,7 @@ var
     statuses = <%= raw @statuses.to_json %>,
     params_id = <%= params[:id] %>
 ;
-$(document).on('turbolinks:load', function () {
-    clearInterval(refresh_details_interval);
-    details.renderChart("#Chart", "<%= params[:sensor] %>");
-    details.renderDetailsMap("<%= params[:sensor] %>");
-    details.startDetailsRefreshInterval("<%= params[:sensor] %>");
-});
+
+clearInterval(refresh_stations_interval);
+clearInterval(refresh_details_interval);
 </script>
