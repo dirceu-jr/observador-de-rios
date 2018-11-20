@@ -22,12 +22,12 @@ var stations = {
         var
             labels = [],
             series = [],
-            past_time_labels = ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m']
+            past_time_labels = ['-5m', '-10m', '-15m', '-20m', '-25m', '-30m', '-35m']
         ;
 
-        for (status in statuses) {
-            labels.push(past_time_labels[status]);
-            series.push(statuses[status][data_name]);
+        for (var i = statuses.length; i--;) {
+            labels.push(past_time_labels[i]);
+            series.push(statuses[i][data_name]);
         }
 
         var dataChart = {
@@ -237,8 +237,6 @@ var stations = {
                 $('#temperatureChart').length != 0 &&
                 $('#co2Chart').length != 0) && statuses
         ) {
-
-            var past_time_labels = ['-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'];
 
             /* ----------==========     pH     ==========---------- */
             this.renderChart('#pHChart', "ph");
