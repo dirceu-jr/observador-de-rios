@@ -1,15 +1,19 @@
-<% provide(:title, "Estação #{@station.name} - Sensor #{@sensor_name} - Atualizando em 30 segundos") %>
+<% provide(:title, "Estação #{@station.name} - Sensor #{@sensor_name}") %>
 
 <div class="content" id="detail" data-sensor="<%= params[:sensor] %>">
     <div class="container-fluid">
-
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><%= link_to "‹ Voltar", @station %></li>
             </ol>
         </nav>
 
-        <h4><%= @sensor_name %></h4>
+        <h4>
+            <%= @sensor_name %> &mdash;
+            <span id="details_refresh">
+                Atualizando em 30 segundos&nbsp;<img src='<%= asset_path "ajax-loader.gif" %> '/>
+            </span>
+        </h4>
         
         <div class="row">
             

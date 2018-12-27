@@ -1,7 +1,11 @@
-<% provide(:title, "Estação #{@station.name} - Atualizando em 30 segundos") %>
+<% provide(:title, "Estação #{@station.name}") %>
 
 <div class="content" id="station">
     <div class="container-fluid">
+
+        <div class="row" id="station_refresh">
+            Atualizando em 30 segundos&nbsp;<img src='<%= asset_path "ajax-loader.gif" %>' />
+        </div>
 
         <div class="row">
 

@@ -149,14 +149,13 @@ var stations = {
     startDashboardRefreshInterval: function() {
 
         var
-            original_title = $(".navbar-brand").html().split("-")[0],
             time_to_refresh = 30,
             time_to_refresh_counter = time_to_refresh;
 
         // auto refresh
         refresh_stations_interval = setInterval(function () {
             
-            $(".navbar-brand").html(original_title + " &mdash; Atualizando em " + (time_to_refresh_counter) + " segundos <img src='<%= asset_path "ajax-loader.gif" %>' />");
+            $("#station_refresh").html("Atualizando em " + (time_to_refresh_counter) + " segundos&nbsp;<img src='<%= asset_path "ajax-loader.gif" %>' />");
 
             time_to_refresh_counter--;
 
