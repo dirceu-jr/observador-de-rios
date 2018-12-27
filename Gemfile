@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.3'
+ruby '2.6.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 5.2.2'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 gem 'pg'
@@ -13,7 +13,7 @@ gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '~> 4.1'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
@@ -35,11 +35,11 @@ gem 'jbuilder', '~> 2.8'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', '~> 1.3', require: false
 
-gem 'activeadmin', '~> 1.3.1'
+gem 'activeadmin', '~> 1.4.3'
 gem 'devise', '~> 4.5.0'
-gem 'carrierwave', '~> 1.2.3'
+gem 'carrierwave', '~> 1.3.0'
 gem 'mini_magick', '~> 4.9.2'
 
 group :development, :test do
