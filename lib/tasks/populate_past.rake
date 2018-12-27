@@ -3,9 +3,9 @@ namespace :data do
     task :populate_past => :environment do
       50000.times do |i|
         s = Status.new
-        s.station_id = 2
-        s.latitude = -25.447862
-        s.longitude = -49.198876
+        s.station_id = 4
+        s.latitude = -23.328147
+        s.longitude = -51.170940
         s.ph = rand(7)
         s.orp = rand(10)
         s.od = rand(10)
