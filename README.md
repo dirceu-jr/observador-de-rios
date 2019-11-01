@@ -2,7 +2,7 @@
 
 A ONG *SOS Mata Atlântica* desenvolve desde 1991 o projeto [Observando Rios](https://www.sosma.org.br/projeto/observando-os-rios/) para monitoramento da qualidade de água de rios.
 
-Inpirado nesse projeto, em novembro de 2018, desenvolvi um esboço de painel de exibição de dados sobre a qualidade da água que seriam captados por estações fixas e/ou autônomas.
+Inspirado nesse projeto, em novembro de 2018, desenvolvi um esboço de painel de exibição de dados sobre a qualidade da água que seriam captados por estações fixas e/ou autônomas.
 
 Para aumentar a capacidade de monitoramento eu proponho o desenvolvimento de estações fixas e móveis para transmitir em tempo-real leituras de pH, ORP, Oxigênio Dissolvido, Condutividade, Temperatura e CO2 na superficie.
 
