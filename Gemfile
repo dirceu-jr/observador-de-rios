@@ -38,7 +38,7 @@ gem 'jbuilder', '~> 2.8'
 gem 'bootsnap', '~> 1.3', require: false
 
 gem 'activeadmin', '~> 1.4.3'
-gem 'devise', '~> 4.5.0'
+gem 'devise', '~> 4.7.1'
 gem 'carrierwave', '~> 1.3.0'
 gem 'mini_magick', '~> 4.9.4'
 
