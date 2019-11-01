@@ -1,13 +1,13 @@
 # Observador de Rios
 
-Demonstração: [https://serene-fjord-33420.herokuapp.com](https://serene-fjord-33420.herokuapp.com)
+A ONG *SOS Mata Atlântica* desenvolve desde 1991 o projeto [Observando Rios](https://www.sosma.org.br/projeto/observando-os-rios/) para monitoramento da qualidade de água de rios.
 
-A ONG *SOS Mata Atlântica* desenvolve desde 1991 o projeto [Observando Rios](https://www.sosma.org.br/projeto/observando-os-rios/).
+Inpirado nesse projeto, em novembro de 2018, desenvolvi um esboço de painel de exibição de dados sobre a qualidade da água que seriam captados por estações fixas e/ou autônomas.
 
-Em Novembro de 2018 iniciei o projeto "Observador de Rios" com o objetivo de melhorar a capacidade de monitoramento dos rios, corregos e outros corpos de água.
+Para aumentar a capacidade de monitoramento eu proponho o desenvolvimento de estações fixas e móveis para transmitir em tempo-real leituras de pH, ORP, Oxigênio Dissolvido, Condutividade, Temperatura e CO2 na superficie.
 
-Para aumentar a capacidade de monitoramento serão desenvolvidas estações fixas e móveis que irão transmitir leituras de pH, ORP, Oxigênio Dissolvido, Condutividade, Temperatura e CO2 na superficie.
+O desenvolvimento das estações e do sistema embarcado podem evoluir com com o uso de hardware de código aberto [BeagleBone Blue](http://beagleboard.org/blue), [Arduino](http://arduino.cc) e/ou [Raspberry Pi](https://www.raspberrypi.org/). Os sensores podem ser [os da Atlas-Scientific](https://www.atlas-scientific.com/kits.html).
 
-Os resultados das leituras serão exibidos em tempo-real nessa interface.
+# Referência
 
-O desenvolvimento das estações e do sistema embarcado deve iniciar em breve com o uso de hardware de código aberto [BeagleBone Blue](http://beagleboard.org/blue), [Arduino](http://arduino.cc) e/ou [Raspberry Pi](https://www.raspberrypi.org/). Os sensores devem ser [os da Atlas-Scientific](https://www.atlas-scientific.com/kits.html).
+Um projeto que deve ser usado como referência para qualquer desenvolvimento é o [Tidmarsh Living Observatory](https://tidmarsh.media.mit.edu/data/herring) do MIT Media Lab.
