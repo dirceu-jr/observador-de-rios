@@ -40,7 +40,7 @@ gem 'bootsnap', '~> 1.3', require: false
 gem 'activeadmin', '~> 1.4.3'
 gem 'devise', '~> 4.5.0'
 gem 'carrierwave', '~> 1.3.0'
-gem 'mini_magick', '~> 4.9.2'
+gem 'mini_magick', '~> 4.9.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
