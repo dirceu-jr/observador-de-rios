@@ -10,4 +10,4 @@ O desenvolvimento das estações e do sistema embarcado podem evoluir com com o 
 
 # Referência
 
-Um projeto que deve ser usado como referência para qualquer desenvolvimento é o [Tidmarsh Living Observatory](https://tidmarsh.media.mit.edu/data/herring) do MIT Media Lab.
+Um projeto que deve ser usado como referência para qualquer desenvolvimento é o [Tidmarsh Living Observatory](https://tidmarsh.media.mit.edu/data/herring) do MIT Media Lab. Outro é o [Monitoramento da Qualidade das Águas IAT](http://www.iat.pr.gov.br/Pagina/Monitoramento-da-Qualidade-das-Aguas).
