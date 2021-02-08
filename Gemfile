@@ -39,7 +39,7 @@ gem 'bootsnap', '~> 1.3', require: false
 
 gem 'activeadmin', '~> 1.4.3'
 gem 'devise', '~> 4.7.1'
-gem 'carrierwave', '~> 1.3.0'
+gem 'carrierwave', '~> 2.1.1'
 gem 'mini_magick', '~> 4.9.4'
 
 group :development, :test do
